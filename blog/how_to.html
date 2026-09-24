@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
+    <meta name="description" content="How to get started with beekeeping in Nepal - A.B.S Pristine Harvest. Learn Nepal's 300+ bee species, traditional beekeeping, and conservation.">
+    <title>How to Get Started - A.B.S Pristine Harvest</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FFD700'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23D4AF37'>🐝</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        
+        .scroll-indicator {
+            position: fixed; top: 0; left: 0; height: 4px; 
+            background: linear-gradient(90deg, #08c825d1, #04698de2); 
+            z-index: 1000; transition: width 0.3s ease;
+        }
+
+        #queenBee {
+            position: fixed; width: 60px; height: 60px; 
+            background: url('../assets/queen-bee.png') center/contain no-repeat;
+            pointer-events: none; transition: all 0.1s ease-out; 
+            filter: drop-shadow(0 4px 12px rgba(0, 166, 255, 0.5));
+            transform-origin: center;cursor: grab;
+            object-fit: scale-down;
+            pointer-events: none;
+            transform: none !important;
+            z-index: 1000 !important;
+        }
+
+        .title-bar {
+                    position: fixed; top: 0; left: 0; right: 0; 
+                    background: rgba(8, 28, 61, 0.988); 
+                    backdrop-filter: blur(20px);
+                    display: flex; align-items: center; 
+                    justify-content: space-between;
+                    padding: 0.75rem 3%; 
+                    z-index: 100; 
+                    box-shadow: 0 4px 30px rgba(17, 18, 2, 0.851);
+                    gap: 1rem;
+                    flex-wrap: nowrap; /* FORCE SINGLE LINE */
+                    transition: opacity 0.3s ease;
+        }
+
+        .logo {
+            height: clamp(2rem, 4vw, 6.5rem); width: clamp(2rem, 4vw, 6.5rem);
+            object-fit: cover; flex-shrink: 0; border-radius: 50%; clip-path: circle(50%);
+            box-shadow: 0 4px 12px rgba(104,113,35,0.774);
+        }
+        #zoom-wrapper {
+            min-height: 100vh;
+            padding-top: 80px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: top center;
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: visible;
+            padding-bottom: 2rem;
+        }
+
+        .premium-title {
+            font-size: clamp(1rem, 3vw, 1.8rem); 
+            background: linear-gradient(45deg, #1da321, #e05095a1); background-size: 400% 400%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: rainbow 3s infinite; margin: 0; line-height: 1.2;
+            white-space: nowrap;                
+            overflow: hidden;                    
+            display: inline-block;                
+            width: max-content !important;       
+            flex-shrink: 0 !important;
+        }
+        @keyframes rainbow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+        .nav-menu { display: flex; gap: 3rem; margin-left: 3rem; margin-right: auto; }
+        .nav-link { 
+            color: #07d776; text-decoration: none; font-family: 'Cinzel', sans-serif; 
+            font-weight: 900; padding: 0.5rem 1rem; border-radius: 20px; transition: all 0.3s;
+            position: relative;
+        }
+        .nav-link:hover, .nav-link.active { 
+            background: linear-gradient(45deg, #7313059d, #ceba03); transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(3,95,131,0.4); 
+        }
+
+        .blog-container { position: relative; display: inline-block; }
+        .blog-dropdown {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            background: rgba(19,16,45,0.98); backdrop-filter: blur(20px); border-radius: 20px;
+            padding: 1rem 0; min-width: 250px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); list-style: none;
+            margin: 0; border: 2px solid rgba(255,215,0,0.3);
+        }
+        .blog-container:hover .blog-dropdown,
+        .blog-container:focus-within .blog-dropdown {
+            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+        }
+        .blog-dropdown li {
+            padding: 0.8rem 2rem; color: #05ad43; font-family: "Cinzel"; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; border-bottom: 1px solid rgba(63,76,30,0.575);
+        }
+        .blog-dropdown li:hover {
+            background: linear-gradient(45deg, #7313059d, #ceba03); color: #fff; padding-left: 2.5rem;
+        }
+        .blog-dropdown li:last-child { border-bottom: none; }
+
+        .lang-selector { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
+        .lang-btn { 
+            background: linear-gradient(45deg, #788413, #635b18); 
+            color: #1a1a1a; border: 2px solid #d4af37; 
+            padding: clamp(0.2rem, 0.8vw, 0.4rem) clamp(0.3rem, 1vw, 0.6rem); 
+            border-radius: 16px; cursor: pointer; 
+            font-size: clamp(0.65rem, 1.8vw, 0.85rem); 
+            font-weight: 700; font-family: 'Cinzel', serif; 
+            text-transform: uppercase; letter-spacing: 0.3px; 
+            transition: all 0.3s; white-space: nowrap; 
+            min-height: clamp(28px, 6vw, 36px);
+            flex-shrink: 0;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+        .lang-btn:hover { 
+            transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 35px rgba(255,215,0,0.6);
+            background: linear-gradient(45deg, #ffed4e, #ffd700); border-color: #b8860b; 
+        }
+        .lang-btn.active { 
+            background: linear-gradient(45deg, #ff6b35, #ff8c42); color: rgb(4, 14, 106);
+            box-shadow: 0 8px 25px rgba(3, 202, 202, 0.5); transform: scale(1.02); border-color: #ff4500;
+        }
+        
+        
+        .flag { margin-right: 4px; font-size: 1em; } .text { font-weight: 700; }
+
+        body { 
+            font-family: 'Playfair Display', serif; line-height: 1.2; color: #2c1810;
+            overflow-x: hidden;cursor:none; transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding-top: 90px !important;
+        }
+
+        section { padding: 90px 5%; min-height: 50vh; scroll-margin-top: 90px; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 900; }
+
+        .home { 
+            display: flex; flex-direction: column; justify-content: center; text-align: center;
+            background: radial-gradient(circle at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+            padding-top: 250px; min-height: 80vh; 
+        }
+        .about, .bees { 
+            background: rgba(255,255,255,0.7); border-radius: 30px; margin: 2rem auto;
+            max-width: 1200px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 40px; 
+        }
+        .home h1 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1rem; }
+        .about-content p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+        .bee-grid, .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .bee-card, .product-card { 
+            background: rgba(4, 156, 202, 0.553); padding: 1.5rem; border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(74, 2, 116, 0.4); transition: transform 0.4s;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+        .bee-card:hover, .product-card:hover { transform: translateY(-8px) scale(1.02); }
+
+        .highlight { 
+            background: linear-gradient(135deg, rgba(255,242,204,0.8), rgba(255,215,0,0.2));
+            padding: 20px; border-left: 6px solid #ffd700; border-radius: 15px; margin: 20px 0; 
+        }
+        
+        #hText {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            line-height: 1.2;
+            max-width: 900px;
+            margin: 1.5rem auto 2rem;
+            padding: 1.5rem 2rem;
+            background: rgba(39, 35, 62, 0.345);
+            
+            backdrop-filter: blur(6px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            border-radius: 50px;
+            color: #eaf1ecdc;
+            font-weight: 400;
+            position: relative;
+        }
+
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255,255,255,0.9);
+                border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,215,0,0.3); }
+        th { background: linear-gradient(45deg, #4a7c59, #ffd700); color: white; font-family: 'Cinzel', serif; }
+
+        ol { padding-left: 20px; }
+        ol li { margin-bottom: 10px; font-size: 1.1rem; }
+
+        .section { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+
+        img { max-width: 100%; height: auto; object-fit: cover; display: block; }
+        .logo-link { display: contents; text-decoration: none; }
+
+            
+        @media (max-width: 768px) {
+           
+            .title-bar {
+                flex-direction: column !important;
+                gap: 1rem;
+                padding: 1rem 2% !important;
+                align-items: center;
+                flex-shrink: 0;
+            }
+            
+            .title-bar > * { 
+                flex-shrink: 0 !important;
+                max-height: none !important;
+                transition: opacity 0.3s ease; 
+            }
+            
+            .about, .bees {
+                display: block !important;
+                margin: 1.5rem -3% !important;
+                border-radius: 0;
+            }
+            
+            .logo { 
+                order: initial; 
+                width: clamp(50px, 15vw, 80px) !important;
+                height: clamp(50px, 15vw, 80px) !important;
+            }
+            
+            #navTitle {
+                font-size: clamp(1.2rem, 6vw, 1.6rem) !important;
+                line-height: 1.2 !important;
+                max-height: 2em !important;      
+                flex-shrink: 0 !important;
+            }
+            
+            .nav-menu {
+                order: initial;
+                flex-direction: column !important;
+                gap: 0.75rem;
+                width: 100%;
+                margin: 1rem 0;
+            }
+            
+            .nav-link {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 0.75rem 1.5rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .lang-selector {
+                order: initial;
+                flex-direction: row !important;
+                gap: 0.5rem;
+                width: 100%;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+            
+            .lang-btn {
+                flex: 1;
+                max-width: 70px;
+                padding: 0.6rem 0.8rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* MOBILE BLOG DROPDOWN */
+            .blog-container {
+                order: 5; 
+                position: relative;
+                align-self: stretch;
+                width: 100%;
+            }
+            
+            .blog-dropdown {
+                position: absolute !important;   
+                top: 100%; 
+                left: 0;                         
+                width: 280px;                   
+                max-width: 90vw;                 
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+                background: rgba(19, 16, 45, 0.98);
+                backdrop-filter: blur(20px);
+                border-radius: 15px;
+                padding: 1rem 0;
+                margin-top: 0.5rem;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                z-index: 1001;
+                list-style: none;
+            }
+            
+            .blog-container:hover .blog-dropdown,
+            .blog-container.active .blog-dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .blog-dropdown li {
+                padding: 0.8rem 1.5rem;
+                text-align: left;
+                border-bottom: 1px solid rgba(63, 76, 30, 0.575);
+                color: #05ad43;
+                font-family: "Cinzel";
+                font-weight: 800;
+            }
+            
+            
+            section#home {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 10 !important;
+                width: 100% !important;
+                min-height: 60vh !important;
+                padding: 220px 5% 60px !important;
+                background: rgba(255,255,255,0.15) !important;
+                margin-top: 0 !important;
+                overflow: visible !important;
+            }
+            
+            section#home.home {
+                padding-top: 220px !important;
+                min-height: calc(100vh - 220px) !important;
+            }
+            
+            section#home h1#hTitle {
+                display: block !important;
+                visibility: visible;
+                font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
+                color: #101010 !important;
+                text-shadow: 3px 3px 8px rgba(99, 97, 97, 0.9) !important;
+                position: relative !important;
+                z-index: 11 !important;
+                margin: 0 0 1.5rem 0 !important;
+                padding: 1rem 0 !important;
+                line-height: 1.2 !important;
+                max-height: none !important;
+                transform: none !important;
+            }
+            
+            section#home #hText {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                padding: 1.5rem !important;
+                margin: 1rem !important;
+                font-size: clamp(1rem, 4vw, 1.2rem) !important;
+                line-height: 1.5 !important;
+                background: rgba(255,255,255,0.1) !important;
+                backdrop-filter: blur(8px) !important;
+                border-radius: 12px !important;
+                color: #131111fa !important;
+            }
+            
+            section#home #hText::before {
+                font-size: 1.5rem;
+                left: 0.8rem;
+            }
+            
+            
+            section {
+                padding: 40px 3% !important;
+                margin-top: 0 !important;
+            }
+            
+            #queenBee {
+                width: 45px !important;
+                height: 45px !important;
+            }
+            
+           
+            html {
+                touch-action: pan-x pan-y pinch-zoom;
+            }
+        }
+
+
+        
+                @supports (zoom: 1) or (-webkit-zoom: 1) {
+                    .title-bar {
+                        position: fixed !important;
+                        transform: translateZ(0) !important; /* Hardware acceleration */
+                        will-change: transform;
+                        top: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                    }
+                }
+               
+                @media (max-width: 768px) and (resolution: 1dppx) {
+                    .title-bar {
+                        position: fixed !important;
+                        -webkit-transform: translateZ(0) !important;
+                        transform: translateZ(0) !important;
+                        isolation: isolate;
+                    }
+                }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background: linear-gradient(rgba(170, 173, 172, 0) 0%, rgba(215, 215, 31, 0) 100%), url('../assets/Hexagon.jpg') center / cover no-repeat;
+        }
+        #zoom-outer { width: 100%; }
+        #zoom-wrapper { scrollbar-width: none; -ms-overflow-style: none; }
+        #zoom-wrapper::-webkit-scrollbar { display: none; }
+        .title-bar.is-hidden { opacity: 0; pointer-events: none; }
+        .blog-dropdown li[data-soon] { opacity: 0.75; }
+        .blog-dropdown li:focus-visible, .nav-link:focus-visible, .lang-btn:focus-visible { outline: 3px solid #ffd700; outline-offset: 2px; }
+        .toast {
+            position: fixed; left: 50%; bottom: 2rem; transform: translateX(-50%);
+            background: rgba(8, 28, 61, 0.96); color: #fff; padding: 0.8rem 1.4rem;
+            border-radius: 30px; font-size: 1rem; z-index: 1002;
+            opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s;
+        }
+        .toast.show { opacity: 1; visibility: visible; }
+
+        html, body {
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- QUEEN BEE CURSOR -->
+    <div id="queenBee"></div>
+    
+    <!-- TITLE BAR -->
+    <header class="title-bar">
+        <a href="../index.html" class="logo-link">
+            <img src="../assets/logo.webp" alt="A.B.S Pristine Harvest Logo" class="logo">
+        </a>
+        <h1 id="navTitle" class="premium-title">A.B.S Pristine Harvest</h1>
+        <nav class="nav-menu">
+            <a href="#home" class="nav-link">Overview</a>
+            <a href="#beekeeping" class="nav-link">Beekeeping</a>
+            <a href="#bees" class="nav-link">Bee Types</a>
+            <a href="#gardening" class="nav-link">Gardening</a>
+            <div class="blog-container">
+                <a href="#" class="nav-link blog-link" aria-haspopup="true">Blog</a>
+                <ul class="blog-dropdown">
+                    <li data-url="how_to.html">How to Get Started</li>
+                    <li data-soon="true">Beekeeping Tips</li>
+                    <li data-soon="true">Honey Types</li>
+                    <li data-soon="true">Queen Rearing</li>
+                    <li data-soon="true">Workshops &amp; Events</li>
+                </ul>
+
+            </div>
+           
+        </nav>
+        <div class="lang-selector">
+            <button class="lang-btn active" data-lang="en"><span class="flag">🇺🇸</span><span class="text">EN</span></button>
+            <button class="lang-btn" data-lang="ne"><span class="flag">🇳🇵</span><span class="text">ने</span></button>
+            <button class="lang-btn" data-lang="sl"><span class="flag">🇸🇮</span><span class="text">SL</span></button>
+        </div>
+    </header>
+    <div id="zoom-outer">
+    <div id="zoom-wrapper">   
+        <main>
+                <!-- HERO SECTION -->
+                <section id="home" class="home section">
+                    <h1 id="hTitle">Journey to Beekeeping</h1>
+                    <p id="hText">Beekeeping awakens Nepal's wildflower magic - start your rooftop adventure with one balcony hive. Apis cerana bees pollinate 80% of our crops while you nurture pure, medicinal honey. It's sustainable living, biodiversity protection, and family legacy - turning every rooftop into a thriving apiary. </p>
+                </section>
+
+                <!-- BEEKEEPING GUIDE -->
+                <section id="beekeeping" class="about section">
+                    <h2 id="beekeepingTitle">Nepal Beekeeping Guide</h2>
+                    <div class="about-content">
+                        <p id="beekeepingText1">Master Apis cerana - Nepal's native bee that fits any balcony or rooftop! From traditional log hives hanging in countryside  to modern Langstroth boxes , harvest  pure honey from the  hive while pollinating rice, apples, and wildflowers. Perfect for beginners - gentle bees need no big land, just morning sun and NRs(15k - 20k) startup. Transform your home into Nepal's next honey success story.</p>
+                        
+                        <div class="highlight">
+                            <h3 id="basicsTitle">Start Traditional Beekeeping</h3>
+                            <ul>
+                                <li>No license needed.</li>
+                                <li>Log hives or modern boxes.</li>
+                                <li>Best time: Spring (April - June) & autumn (Sep. - Nov.) </li>
+                            </ul>
+                        </div>
+
+                        <h3 id="locationTitle">Best Locations</h3>
+                        <ul>
+                            <li>Sunny hillsides, forest edges</li>
+                            <li>Near wildflowers, water sources</li>
+                            <li>60-3000m elevation range</li>
+                        </ul>
+
+                        <h3 id="equipmentTitle">Equipment (NRs 15,000-20,000)</h3>
+                        <table>
+                            <tr><th>Item</th><th>Cost</th></tr>
+                            <tr><td>Log hive / Modern box</td><td>NRs 4,000-7,000</td></tr>
+                            <tr><td>Bamboo suit & gloves</td><td>NRs 2,000-4,000</td></tr>
+                            <tr><td>Smoker & iron tools</td><td>NRs 3,000-5,000</td></tr>
+                            <tr><td>Apis cerana nucleus</td><td>NRs 6,000-9,000</td></tr>
+                        </table>
+
+                        <h3 id="careTitle">Care Tips</h3>
+                        <ul>
+                            <li><strong>Vital Weekly Rounds:</strong> Pop open the hive each week for queen sightings, space expansions, and pest patrols—catch issues early to prevent colony collapse.</li>
+                            <li><strong>Spring & Autumn Syrup Boost:</strong> Drench your bees with sugar syrup during these key transition seasons for explosive population growth and winter prep fuel.</li>
+                            <li><strong>Winter Fortress Defense:</strong> Wrap hives tight against freezing winds and frost with insulation tricks—your bees will emerge stronger next spring!</li>
+                        </ul>
+
+                        <h3 id="harvestTitle">Harvest Honey</h3>
+                        <ol>
+                            <li>Smoke bees gently</li>
+                            <li>Remove ripe frames</li>
+                            <li>Crush, strain, bottle</li>
+                        </ol>
+
+                        <div class="highlight">
+                            <p id="benefitsText">Support biodiversity, get native honeybee, boost pollination!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BEE IDENTIFICATION -->
+                <section id="bees" class="bees section">
+                    <h2 id="beesTitle">Bee Types Found In Nepal</h2>
+                    <div class="bee-grid">
+                        <div class="bee-card">
+                            <h3 id="bumblebeesTitle">Bumblebees (Bombus spp.)</h3>
+                            <p id="bumblebeesText">Fluffy, hairy, small colonies. Common: B. haemorrhoidalis (orange tail), B. festivus (yellow bands). Buzz pollination experts.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="honeybeesTitle">Apis cerana</h3>
+                            <p id="honeybeesText">Native cavity-nesting honeybee. Slim, brown-black stripes. 60-3,500m across hills. Traditional beekeeping favorite.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="laboriosaTitle">Apis laboriosa</h3>
+                            <p id="laboriosaText">Himalayan Cliff Bee. World's largest honeybee. 850-3,500m cliffs. Massive combs, seasonal migration.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="dorsataTitle">Apis dorsata</h3>
+                            <p id="dorsataText">Giant Honeybee. Large yellow-black bees. Terai to 1,200m. Huge open combs ("Khad mauri"). Wild honey source.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="floreaTitle">Apis florea</h3>
+                            <p id="floreaText">Dwarf honeybee. Smallest species. Lowlands to 1,200m. Tiny combs in bushes. Delicate & fast.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="melliferaTitle">Apis mellifera</h3>
+                            <p id="melliferaText">Introduced European honeybee. Terai commercial beekeeping. Fails in hills/Himalayas.</p>
+                        </div>
+                        <div class="bee-card">
+                            <h3 id="metallicTitle">Metallic Sweat Bees</h3>
+                            <p id="metallicText">Shiny blue-green Halictidae. Garden pollinators with iridescent sheen. Solitary, look like blue-banded bees.</p>
+                        </div>
+                    </div>
+                    <div class="highlight">
+                        <p><strong>Nepal hosts over 300 bee species!</strong> Plant tubular flowers (salvia, lantana, sunflowers) to help pollinators.</p>
+                    </div>
+                </section>
+
+                <!-- GARDENING -->
+            <section id="gardening" class="about section">
+                <h2>🌸 Gardening for Bees</h2>
+                <div class="products-grid">
+                        <div class="product-card">
+                            <h3> Chiuri (Aesandra butyracea)</h3>
+                            <p>February bloom → 40% of Nepal's honey. Plant 1 tree = endless food for 10 hives.</p>
+                    
+                        </div>
+                        <div class="product-card">
+                            <h3> Chilaune (Schima wallichii) </h3>
+                            <p>May-July → Wild in mid-hills.</p>
+                        </div>
+
+                        <div class="product-card">
+                            <h3> Mustard (Brassica)</h3>
+                            <p>December - January bloom → First honey of year. Easy winter crop + bee food.</p>
+                        </div>
+
+                        <div class="product-card">
+                            <h3> Sunflower</h3>
+                            <p>Year-round seeds.</p>
+                        </div>
+                        <div class="product-card">
+                            <h3> +20 More Herbs & Shrubs</h3>
+                            <p><strong>Year-round nectar:</strong> Rhododendron (native species)Spring bloom → Mad honey source + pollination powerhouse for hills. Plant for bees & tradition! Fits perfectly with Tulsi/Mint for year-round forage.Plant mix = non-stop bee food +  medicinal herb bonus!</p>
+                        </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    </div><!-- /zoom-outer -->
+
+    <div id="blogSoon" class="toast" role="status" aria-live="polite">This page is coming soon.</div>
+
+    <script>
+        let targetX = 50, targetY = 50, currentX = 50, currentY = 50;
+        let currentLang = 'en', isMobile = false;
+        let appScale = 1, initialDistance = 0, initialScale = 1;
+        let isDragging = false, startX = 0, startY = 0;
+        let wrapper = null;
+        let panX = 0, panY = 0;
+
+        const translations = {
+            en: {
+                navTitle: "A.B.S Pristine Harvest",
+                hTitle: "Journey to Beekeeping",
+                hText: "Beekeeping awakens Nepal's wildflower magic - start your rooftop adventure with one balcony hive. Apis cerana bees pollinate 80% of our crops while you nurture pure, medicinal honey. It's sustainable living, biodiversity protection, and family legacy - turning every rooftop into a thriving apiary.",
+                beekeepingTitle: "Nepal Beekeeping Guide",
+                beekeepingText1: "Master Apis cerana - Nepal's native bee that fits any balcony or rooftop! From traditional log hives hanging in countryside to modern Langstroth boxes, harvest pure honey from the  hive while pollinating rice, apples, and wildflowers. Perfect for beginners - gentle bees need no big land, just morning sun and NRs(15k - 20k) startup. Transform your home into Nepal's next honey success story.",
+
+                basicsTitle: "Start Traditional Beekeeping",
+                locationTitle: "Best Locations",
+                equipmentTitle: "Equipment (NRs 15,000-20,000)",
+                careTitle: "Care Tips",
+                harvestTitle: "Harvest Honey",
+                benefitsText: "Support biodiversity, get wild honey, help pollination!",
+                beesTitle: "Bee Types Found In Nepal",
+                bumblebeesTitle: "Bumblebees (Bombus spp.)",
+                bumblebeesText: "Fluffy, hairy, small colonies. Common: B. haemorrhoidalis (orange tail), B. festivus (yellow bands). Buzz pollination experts.",
+                honeybeesTitle: "Apis cerana",
+                honeybeesText: "Native cavity-nesting honeybee. Slim, brown-black stripes. 60-3,500m across hills. Traditional beekeeping favorite.",
+                laboriosaTitle: "Apis laboriosa",
+                laboriosaText: "Himalayan Cliff Bee. World's largest honeybee. 850-3,500m cliffs. Massive combs, seasonal migration.",
+                dorsataTitle: "Apis dorsata",
+                dorsataText: "Giant Honeybee. Large yellow-black bees. Terai to 1,200m. Huge open combs (\"Khad mauri\"). Wild honey source.",
+                floreaTitle: "Apis florea",
+                floreaText: "Dwarf honeybee. Smallest species. Lowlands to 1,200m. Tiny combs in bushes. Delicate & fast.",
+                melliferaTitle: "Apis mellifera",
+                melliferaText: "Introduced European honeybee. Terai commercial beekeeping. Fails in hills/Himalayas.",
+                metallicTitle: "Metallic Sweat Bees",
+                metallicText: "Shiny blue-green Halictidae. Garden pollinators with iridescent sheen. Solitary, look like blue-banded bees.",
+                blogSoon: "This page is coming soon."
+            },
+            ne: {
+                beesTitle: "नेपालमा पाइने मौरीको प्रकारहरू",
+                bumblebeesTitle: "बम्बलबीहरू (Bombus spp.)",
+                bumblebeesText: "रूखिलो, साना समूह। सामान्य प्रजाति: B. haemorrhoidalis (स्याउलो पुच्छर), B. festivus (पहेंलो धर्सो)।",
+                honeybeesTitle: "Apis cerana",
+                honeybeesText: "देशी गुँड निमारण गर्ने मौरी। साँघुरो, खैरो-कालो धर्सो। नेपालका पहाडहरूमा ६०-३५०० मिटर सम्म।",
+                laboriosaTitle: "Apis laboriosa",
+                laboriosaText: "हिमाली चट्टान मौरी। विश्वको सबैभन्दा ठूलो मह, ८५०-३५००मि चट्टानमा।",
+                dorsataTitle: "Apis dorsata",
+                dorsataText: "विशाल मौरी। ठूलो पहेंलो-कालो मह तराईमा १२००मि सम्म।",
+                floreaTitle: "Apis florea",
+                floreaText: "सानो मौरी। सबैभन्दा सानो प्रजाति, तराईमा १२००मि सम्म जंगली।",
+                melliferaTitle: "Apis mellifera",
+                melliferaText: "परिचय गरिएको युरोपेली मौरी। व्यावसायिक महराशीका लागि तराई मैदानमा राम्रो।",
+                metallicTitle: "धातु चम्किलो पसिना मौरी",
+                metallicText: "चम्किलो नीलो-हरियो Halictidae। बगैंचाका साना परागकणक।",
+                blogSoon: "यो पृष्ठ छिट्टै आउँदैछ।"
+            },
+            sl: {
+                beesTitle: "Vrste čebel v Nepalu",
+                bumblebeesTitle: "Čmrlji (Bombus spp.)",
+                bumblebeesText: "Puhasti, dlakavi, majhne kolonije. Pogoste vrste: B. haemorrhoidalis, B. festivus.",
+                honeybeesTitle: "Apis cerana",
+                honeybeesText: "Domorodna kavernična medonosna čebela. Vitka, rjavo-črne črte.",
+                laboriosaTitle: "Apis laboriosa",
+                laboriosaText: "Himalajska pečinska čebela. Največja medonosna čebela na svetu.",
+                dorsataTitle: "Apis dorsata",
+                dorsataText: "Velika medonosna čebela. Velike rumeno-črne čebele v Terai.",
+                floreaTitle: "Apis florea",
+                floreaText: "Mala medonosna čebela. Najmanjša vrsta, divje v nižinah.",
+                melliferaTitle: "Apis mellifera",
+                melliferaText: "Uvožena evropska medonosna čebela. Uspeva v Terai nižinah.",
+                metallicTitle: "Kovinske znojne čebele",
+                metallicText: "Sijoče modro-zelene Halictidae. Male vrtne opraševalnice.",
+                blogSoon: "Ta stran bo kmalu na voljo."
+            }
+        };
+
+
+        // ALL FUNCTIONS 
+        function syncZoomHeight() {
+            const outer = document.getElementById('zoom-outer');
+            if (!outer || !wrapper) return;
+            if (appScale < 1) {
+                // shrink the page height to match the zoomed-out content (no empty scroll space)
+                outer.style.height = (wrapper.offsetHeight * appScale) + 'px';
+                outer.style.overflow = 'hidden';
+            } else {
+                outer.style.height = '';
+                outer.style.overflow = '';
+            }
+        }
+
+        function updateScale(scale) {
+            if (!wrapper) return;
+            appScale = Math.max(0.5, Math.min(3.0, scale));
+            const titleBar = document.querySelector('.title-bar');
+            
+            if (titleBar) {
+                titleBar.style.transform = 'none';
+                titleBar.style.position = 'fixed';
+                titleBar.style.top = '0';
+                titleBar.style.zIndex = '1000';
+            }
+    
+            wrapper.style.transform = `scale(${appScale}) translate(${panX}px, ${panY}px)`;
+            wrapper.style.transformOrigin = 'top center';
+            
+            wrapper.style.height = 'auto';
+            wrapper.style.overflowY = 'auto';
+            wrapper.style.overflowX = 'hidden';
+            document.body.style.overflow = 'auto';
+            syncZoomHeight();
+        }
+
+
+
+
+        function detectMobile() { 
+            isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); 
+        }
+        function disableMobileZoom() {
+            if (isMobile) {
+                document.body.classList.add('mobile-zoom-disabled');
+                wrapper.style.transform = 'none';
+                wrapper.style.scale = '1';
+                appScale = 1;
+                panX = 0;
+                panY = 0;
+            }
+        }
+    
+        function handleInput(e) {
+            targetX = e.clientX || (e.touches?.[0]?.clientX) || targetX;
+            targetY = e.clientY || (e.touches?.[0]?.clientY) || targetY;
+        }
+        let rafId = null; 
+        let isVisible = true;
+        function animateQueen() {
+           if (document.visibilityState !== 'visible') {
+                isVisible = false; rafId = null;
+                return; 
+            }
+            
+            
+            if (!isVisible) {
+                isVisible = true;
+            } else {
+                currentX += (targetX - currentX - (isMobile ? 25 : 35)) * 0.16;
+                currentY += (targetY - currentY - (isMobile ? 35 : 45)) * 0.16;
+                const safeX = Math.max(30, Math.min(window.innerWidth - 60, currentX));
+                const safeY = Math.max(50, Math.min(window.innerHeight - 70, currentY));
+                const queenBee = document.getElementById('queenBee');
+                if (queenBee) {
+                    queenBee.style.left = safeX + 'px';
+                    queenBee.style.top = safeY + 'px';
+                    const angle = Math.atan2(targetY - currentY, targetX - currentX) * (isMobile ? 4 : 6);
+                    queenBee.style.transform = `rotate(${angle}deg)`;
+                }
+            }
+            
+            
+            rafId = requestAnimationFrame(animateQueen);
+        }
+        
+        // Show header only at the top of the page
+        const titleBar = document.querySelector('.title-bar');
+        function updateHeader() {
+            titleBar.classList.toggle('is-hidden', window.scrollY > 10);
+        }
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        updateHeader();
+
+        function initLanguage() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLang = btn.dataset.lang;
+                    sessionStorage.setItem('beeLifeLang', currentLang);
+                    document.documentElement.lang = currentLang;
+                    updateContent();
+                });
+            });
+        }
+
+        function updateContent() {
+            const langPack = translations[currentLang] || translations.en;
+            Object.keys(langPack).forEach(key => {
+                const el = document.getElementById(key);
+                if (el && typeof langPack[key] === 'string') el.textContent = langPack[key];
+            });
+        }
+
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            wrapper = document.getElementById('zoom-wrapper');
+            if (window.ResizeObserver) new ResizeObserver(syncZoomHeight).observe(wrapper);
+        
+            // Language
+            if (sessionStorage.getItem('beeLifeLang')) {
+                currentLang = sessionStorage.getItem('beeLifeLang');
+                document.documentElement.lang = currentLang;
+            }
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+            updateContent();
+        
+         // Touch events
+            document.addEventListener('touchstart', (e) => {
+                if (!wrapper) return;
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    initialDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                    initialScale = appScale;
+                } else if (e.touches.length === 1 && appScale > 1) {
+                    e.preventDefault();
+                    isDragging = true;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!wrapper) return;
+    
+                if (e.touches.length === 2) {
+      
+                    e.preventDefault();
+                    const currentDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    updateScale((currentDistance / initialDistance) * initialScale);
+                } else if (isDragging && e.touches.length === 1 && appScale > 1) {
+                
+                    e.preventDefault();
+                    const deltaX = (e.touches[0].clientX - startX) / appScale;
+                    const deltaY = (e.touches[0].clientY - startY) / appScale;
+        
+                    panX -= deltaX;
+                    panY -= deltaY;
+                    const wrapperWidth = wrapper.scrollWidth;
+                    const wrapperHeight = wrapper.scrollHeight;
+                    const scaledWidth = wrapperWidth * appScale;
+                    const scaledHeight = wrapperHeight * appScale;
+                    panX = Math.max(window.innerWidth - scaledWidth, Math.min(0, panX));
+                    panY = Math.max(window.innerHeight - scaledHeight + 80, Math.min(0, panY));
+        
+                    wrapper.style.transform = `scale(${appScale}) translate(${panX}px, ${panY}px)`;
+        
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: false });
+
+
+            document.addEventListener('touchend', () => isDragging = false);
+
+            document.addEventListener('wheel', (e) => {
+               if (!wrapper || !(e.ctrlKey || e.metaKey)) return;
+                e.preventDefault();
+                
+                // FIXED: Reset pan + clamp scale
+                const newScale = Math.max(0.5, Math.min(3.0, appScale * (e.deltaY > 0 ? 0.9 : 1.1)));
+                panX = 0; panY = 0; // Reset pan on zoom
+                updateScale(newScale);
+            }, { passive: false });
+    
+ 
+
+
+            // Ctrl/Cmd + and - keys: zoom the content only (not the browser page)
+            document.addEventListener('keydown', (e) => {
+                if (!wrapper || !(e.ctrlKey || e.metaKey) || e.altKey) return;
+                let next = null;
+                if (e.key === '+' || e.key === '=') next = appScale + 0.1;
+                else if (e.key === '-' || e.key === '_') next = appScale - 0.1;
+                else if (e.key === '0') next = 1;
+                if (next === null) return;
+                e.preventDefault();
+                panX = 0; panY = 0;
+                updateScale(Math.round(next * 10) / 10);
+            });
+
+            document.addEventListener('dblclick', () => {
+                appScale = 1;
+                panX = 0; 
+                panY = 0;
+                updateScale(1);  // This resets everything
+            });
+
+
+            // Input tracking
+            document.addEventListener('mousemove', handleInput);
+            document.addEventListener('touchstart', handleInput, { passive: true });
+            document.addEventListener('touchmove', handleInput, { passive: true });
+
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach((link, i) => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href.startsWith('#') && href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Blog dropdown
+            document.querySelectorAll('.blog-dropdown li').forEach(li => {
+                li.setAttribute('tabindex', '0');
+                li.setAttribute('role', 'link');
+                li.addEventListener('keydown', e => { if (e.key === 'Enter') li.click(); });
+                li.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    document.querySelector('.blog-container')?.classList.remove('active');
+                    if (this.dataset.url) { window.location.href = this.dataset.url; return; }
+                    const t = document.getElementById('blogSoon');
+                    t.classList.add('show');
+                    clearTimeout(window.soonTimer);
+                    window.soonTimer = setTimeout(() => t.classList.remove('show'), 2500);
+                });
+            });
+
+            document.addEventListener('click', e => {
+                if (window.innerWidth <= 768 && document.querySelector('.blog-link')?.contains(e.target)) {
+                    e.preventDefault();
+                    document.querySelector('.blog-container').classList.toggle('active');
+                } else if (window.innerWidth <= 768) {
+                    document.querySelector('.blog-container')?.classList.remove('active');
+                }
+            });
+
+            // Language
+            initLanguage();
+
+            // Scroll handler (SINGLE)
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                document.querySelector('.scroll-indicator').style.width = (scrollTop / docHeight * 100) + '%';
+            
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.toggle('visible', s.getBoundingClientRect().top < window.innerHeight && s.getBoundingClientRect().bottom > 0);
+                });
+            
+                document.querySelectorAll('.nav-link').forEach((link, i) => {
+                    const sections = document.querySelectorAll('.section');
+                    if (i < sections.length) link.classList.toggle('active', sections[i].getBoundingClientRect().top < 100);
+                });
+            });
+
+            // Initial setup
+            document.querySelectorAll('.section').forEach(s => s.classList.add('visible'));
+            detectMobile();
+            rafId = requestAnimationFrame(animateQueen);
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible' ) {
+                    isVisible = true;
+                    if (rafId !=null) cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(animateQueen);
+                } else if (rafId !== null) {
+                    // Tab hidden - cancel animation frame
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            });
+        });
+
+        window.addEventListener('resize', detectMobile);
+    
+    </script>
+
+</body>
+</html>
