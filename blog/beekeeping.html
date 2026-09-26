@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
+    <meta name="description" content="Beekeeping tips for Nepal - A.B.S Pristine Harvest. An interactive hive inspection checklist, seasonal apiary calendar, and practical field advice.">
+    <title>Beekeeping Tips - A.B.S Pristine Harvest</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23FFD700'/><text x='50' y='55' font-size='40' text-anchor='middle' fill='%23D4AF37'>🐝</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        
+        .scroll-indicator {
+            position: fixed; top: 0; left: 0; height: 4px; 
+            background: linear-gradient(90deg, #08c825d1, #04698de2); 
+            z-index: 1000; transition: width 0.3s ease;
+        }
+
+        #queenBee {
+            position: fixed; width: 60px; height: 60px; 
+            background: url('../assets/queen-bee.png') center/contain no-repeat;
+            pointer-events: none; transition: all 0.1s ease-out; 
+            filter: drop-shadow(0 4px 12px rgba(0, 166, 255, 0.5));
+            transform-origin: center;cursor: grab;
+            object-fit: scale-down;
+            pointer-events: none;
+            transform: none !important;
+            z-index: 1000 !important;
+        }
+
+        .title-bar {
+                    position: fixed; top: 0; left: 0; right: 0; 
+                    background: rgba(8, 28, 61, 0.988); 
+                    backdrop-filter: blur(20px);
+                    display: flex; align-items: center; 
+                    justify-content: space-between;
+                    padding: 0.75rem 3%; 
+                    z-index: 100; 
+                    box-shadow: 0 4px 30px rgba(17, 18, 2, 0.851);
+                    gap: 1rem;
+                    flex-wrap: nowrap; /* FORCE SINGLE LINE */
+                    transition: opacity 0.3s ease;
+        }
+
+        .logo {
+            height: clamp(2rem, 4vw, 6.5rem); width: clamp(2rem, 4vw, 6.5rem);
+            object-fit: cover; flex-shrink: 0; border-radius: 50%; clip-path: circle(50%);
+            box-shadow: 0 4px 12px rgba(104,113,35,0.774);
+        }
+        #zoom-wrapper {
+            min-height: 100vh;
+            padding-top: 80px;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: top center;
+            width: 100%;
+            height: auto;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: visible;
+            padding-bottom: 2rem;
+        }
+
+        .premium-title {
+            font-size: clamp(1rem, 3vw, 1.8rem); 
+            background: linear-gradient(45deg, #1da321, #e05095a1); background-size: 400% 400%;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: rainbow 3s infinite; margin: 0; line-height: 1.2;
+            white-space: nowrap;                
+            overflow: hidden;                    
+            display: inline-block;                
+            width: max-content !important;       
+            flex-shrink: 0 !important;
+        }
+        @keyframes rainbow { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+        .nav-menu { display: flex; gap: 3rem; margin-left: 3rem; margin-right: auto; }
+        .nav-link { 
+            color: #07d776; text-decoration: none; font-family: 'Cinzel', sans-serif; 
+            font-weight: 900; padding: 0.5rem 1rem; border-radius: 20px; transition: all 0.3s;
+            position: relative;
+        }
+        .nav-link:hover, .nav-link.active { 
+            background: linear-gradient(45deg, #7313059d, #ceba03); transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(3,95,131,0.4); 
+        }
+
+        .blog-container { position: relative; display: inline-block; }
+        .blog-dropdown {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            background: rgba(19,16,45,0.98); backdrop-filter: blur(20px); border-radius: 20px;
+            padding: 1rem 0; min-width: 250px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); list-style: none;
+            margin: 0; border: 2px solid rgba(255,215,0,0.3);
+        }
+        .blog-container:hover .blog-dropdown,
+        .blog-container:focus-within .blog-dropdown {
+            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+        }
+        .blog-dropdown li {
+            padding: 0.8rem 2rem; color: #05ad43; font-family: "Cinzel"; font-weight: 800;
+            cursor: pointer; transition: all 0.2s; border-bottom: 1px solid rgba(63,76,30,0.575);
+        }
+        .blog-dropdown li:hover {
+            background: linear-gradient(45deg, #7313059d, #ceba03); color: #fff; padding-left: 2.5rem;
+        }
+        .blog-dropdown li:last-child { border-bottom: none; }
+
+        .lang-selector { display: flex; gap: 0.5rem; align-items: center; margin-left: auto; }
+        .lang-btn { 
+            background: linear-gradient(45deg, #788413, #635b18); 
+            color: #1a1a1a; border: 2px solid #d4af37; 
+            padding: clamp(0.2rem, 0.8vw, 0.4rem) clamp(0.3rem, 1vw, 0.6rem); 
+            border-radius: 16px; cursor: pointer; 
+            font-size: clamp(0.65rem, 1.8vw, 0.85rem); 
+            font-weight: 700; font-family: 'Cinzel', serif; 
+            text-transform: uppercase; letter-spacing: 0.3px; 
+            transition: all 0.3s; white-space: nowrap; 
+            min-height: clamp(28px, 6vw, 36px);
+            flex-shrink: 0;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+        .lang-btn:hover { 
+            transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 35px rgba(255,215,0,0.6);
+            background: linear-gradient(45deg, #ffed4e, #ffd700); border-color: #b8860b; 
+        }
+        .lang-btn.active { 
+            background: linear-gradient(45deg, #ff6b35, #ff8c42); color: rgb(4, 14, 106);
+            box-shadow: 0 8px 25px rgba(3, 202, 202, 0.5); transform: scale(1.02); border-color: #ff4500;
+        }
+        
+        
+        .flag { margin-right: 4px; font-size: 1em; } .text { font-weight: 700; }
+
+        body { 
+            font-family: 'Playfair Display', serif; line-height: 1.2; color: #2c1810;
+             overflow-x: hidden; cursor: none; transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding-top: 90px !important;
+        }
+
+        section { padding: 90px 5%; min-height: 50vh; scroll-margin-top: 90px; }
+        h1, h2, h3 { font-family: 'Cinzel', serif; font-weight: 900; }
+
+        .home { 
+            display: flex; flex-direction: column; justify-content: center; text-align: center;
+            background: radial-gradient(circle at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+            padding-top: 250px; min-height: 80vh; 
+        }
+        .about, .bees { 
+            background: rgba(255,255,255,0.7); border-radius: 30px; margin: 2rem auto;
+            max-width: 1200px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); padding: 40px; 
+        }
+        .home h1 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 1rem; }
+        .about-content p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+
+        .bee-grid, .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .bee-card, .product-card { 
+            background: rgba(4, 156, 202, 0.553); padding: 1.5rem; border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(74, 2, 116, 0.4); transition: transform 0.4s;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+        .bee-card:hover, .product-card:hover { transform: translateY(-8px) scale(1.02); }
+
+        .highlight { 
+            background: linear-gradient(135deg, rgba(255,242,204,0.8), rgba(255,215,0,0.2));
+            padding: 20px; border-left: 6px solid #ffd700; border-radius: 15px; margin: 20px 0; 
+        }
+        
+        #hText {
+            font-size: clamp(1.3rem, 4vw, 2rem);
+            line-height: 1.2;
+            max-width: 900px;
+            margin: 1.5rem auto 2rem;
+            padding: 1.5rem 2rem;
+            background: rgba(155, 154, 162, 0.573);
+            
+            backdrop-filter: blur(5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            border-radius: 50px;
+            color: #060706;
+            font-weight: 400;
+            position: relative;
+        }
+
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: rgba(255,255,255,0.9);
+                border-radius: 15px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,215,0,0.3); }
+        th { background: linear-gradient(45deg, #4a7c59, #ffd700); color: white; font-family: 'Cinzel', serif; }
+
+        ol { padding-left: 20px; }
+        ol li { margin-bottom: 10px; font-size: 1.1rem; }
+
+        .section { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+
+        img { max-width: 100%; height: auto; object-fit: cover; display: block; }
+        .logo-link { display: contents; text-decoration: none; }
+
+            
+        @media (max-width: 768px) {
+           
+            .title-bar {
+                flex-direction: column !important;
+                gap: 1rem;
+                padding: 1rem 2% !important;
+                align-items: center;
+                flex-shrink: 0;
+            }
+            
+            .title-bar > * { 
+                flex-shrink: 0 !important;
+                max-height: none !important;
+                transition: opacity 0.3s ease; 
+            }
+            
+            .about, .bees {
+                display: block !important;
+                margin: 1.5rem -3% !important;
+                border-radius: 0;
+            }
+            
+            .logo { 
+                order: initial; 
+                width: clamp(50px, 15vw, 80px) !important;
+                height: clamp(50px, 15vw, 80px) !important;
+            }
+            
+            #navTitle {
+                font-size: clamp(1.2rem, 6vw, 1.6rem) !important;
+                line-height: 1.2 !important;
+                max-height: 2em !important;      
+                flex-shrink: 0 !important;
+            }
+            
+            .nav-menu {
+                order: initial;
+                flex-direction: column !important;
+                gap: 0.75rem;
+                width: 100%;
+                margin: 1rem 0;
+            }
+            
+            .nav-link {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 0.75rem 1.5rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .lang-selector {
+                order: initial;
+                flex-direction: row !important;
+                gap: 0.5rem;
+                width: 100%;
+                justify-content: center;
+                margin-top: 0.5rem;
+            }
+            
+            .lang-btn {
+                flex: 1;
+                max-width: 70px;
+                padding: 0.6rem 0.8rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            /* MOBILE BLOG DROPDOWN */
+            .blog-container {
+                order: 5; 
+                position: relative;
+                align-self: stretch;
+                width: 100%;
+            }
+            
+            .blog-dropdown {
+                position: absolute !important;   
+                top: 100%; 
+                left: 0;                         
+                width: 280px;                   
+                max-width: 90vw;                 
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+                background: rgba(19, 16, 45, 0.98);
+                backdrop-filter: blur(20px);
+                border-radius: 15px;
+                padding: 1rem 0;
+                margin-top: 0.5rem;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                z-index: 1001;
+                list-style: none;
+            }
+            
+            .blog-container:hover .blog-dropdown,
+            .blog-container.active .blog-dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .blog-dropdown li {
+                padding: 0.8rem 1.5rem;
+                text-align: left;
+                border-bottom: 1px solid rgba(63, 76, 30, 0.575);
+                color: #05ad43;
+                font-family: "Cinzel";
+                font-weight: 800;
+            }
+            
+            
+            section#home {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: relative !important;
+                z-index: 10 !important;
+                width: 100% !important;
+                min-height: 60vh !important;
+                padding: 220px 5% 60px !important;
+                background: rgba(255,255,255,0.15) !important;
+                margin-top: 0 !important;
+                overflow: visible !important;
+            }
+            
+            section#home.home {
+                padding-top: 220px !important;
+                min-height: calc(100vh - 220px) !important;
+            }
+            
+            section#home h1#hTitle {
+                display: block !important;
+                visibility: visible;
+                font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
+                color: #101010 !important;
+                text-shadow: 3px 3px 8px rgba(99, 97, 97, 0.9) !important;
+                position: relative !important;
+                z-index: 11 !important;
+                margin: 0 0 1.5rem 0 !important;
+                padding: 1rem 0 !important;
+                line-height: 1.2 !important;
+                max-height: none !important;
+                transform: none !important;
+            }
+            
+            section#home #hText {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                padding: 1.5rem !important;
+                margin: 1rem !important;
+                font-size: clamp(1rem, 4vw, 1.2rem) !important;
+                line-height: 1.5 !important;
+                background: rgba(255,255,255,0.1) !important;
+                backdrop-filter: blur(10px) !important;
+                border-radius: 12px !important;
+                color: #f8f8f8 !important;
+            }
+            
+            section#home #hText::before {
+                font-size: 1.5rem;
+                left: 0.8rem;
+            }
+            
+            
+            section {
+                padding: 40px 3% !important;
+                margin-top: 0 !important;
+            }
+            
+            #queenBee {
+                width: 45px !important;
+                height: 45px !important;
+            }
+            
+           
+            html {
+                touch-action: pan-x pan-y pinch-zoom;
+            }
+        }
+
+
+        
+                @supports (zoom: 1) or (-webkit-zoom: 1) {
+                    .title-bar {
+                        position: fixed !important;
+                        transform: translateZ(0) !important; /* Hardware acceleration */
+                        will-change: transform;
+                        top: 0 !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                    }
+                }
+               
+                @media (max-width: 768px) and (resolution: 1dppx) {
+                    .title-bar {
+                        position: fixed !important;
+                        -webkit-transform: translateZ(0) !important;
+                        transform: translateZ(0) !important;
+                        isolation: isolate;
+                    }
+                }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background: linear-gradient(rgba(170, 173, 172, 0) 0%, rgba(215, 215, 31, 0) 100%), url('../assets/Hexagon.jpg') center / cover no-repeat;
+        }
+        #zoom-outer { width: 100%; }
+        #zoom-wrapper { scrollbar-width: none; -ms-overflow-style: none; }
+        #zoom-wrapper::-webkit-scrollbar { display: none; }
+        .title-bar.is-hidden { opacity: 0; pointer-events: none; }
+        .blog-dropdown li[data-soon] { opacity: 0.75; }
+        .blog-dropdown li:focus-visible, .nav-link:focus-visible, .lang-btn:focus-visible { outline: 3px solid #ffd700; outline-offset: 2px; }
+        .toast {
+            position: fixed; left: 50%; bottom: 2rem; transform: translateX(-50%);
+            background: rgba(8, 28, 61, 0.96); color: #fff; padding: 0.8rem 1.4rem;
+            border-radius: 30px; font-size: 1rem; z-index: 1002;
+            opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s;
+        }
+        .toast.show { opacity: 1; visibility: visible; }
+
+        html, body {
+                    scrollbar-width: none;
+                    -ms-overflow-style: none;
+                }
+        html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+        /* BEEKEEPING TIPS PAGE */
+        .tip-note {
+            background: rgba(255,255,255,0.7); border-left: 6px solid #d4af37;
+            border-radius: 16px; padding: 1.2rem 1.5rem; margin: 0 auto 2rem; max-width: 1200px;
+        }
+        .checklist-card {
+            background: rgba(255,255,255,0.85); border-radius: 30px; padding: 1.5rem 1.8rem 1.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 2px solid rgba(212,175,55,0.4);
+        }
+        .progress-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; font-family: 'Cinzel', serif; font-weight: 800; color: #08c825; }
+        .progress-track { flex: 1; height: 10px; background: #e7ded0; border-radius: 10px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg,#d4af37,#08c825); transition: width 0.2s ease; }
+        .check-item { display: flex; gap: 0.9rem; align-items: flex-start; padding: 0.85rem 0; border-top: 1px solid #e7ded0; cursor: pointer; }
+        .check-item:first-of-type { border-top: none; }
+        .check-item input { position: absolute; opacity: 0; pointer-events: none; }
+        .checkmark { min-width: 24px; height: 24px; border: 2px solid #8a7a4a; border-radius: 7px; display: grid; place-items: center; margin-top: 2px; transition: 0.18s; }
+        .check-item input:checked + .checkmark { background: #08c825; border-color: #08c825; }
+        .check-item input:checked + .checkmark::after { content: "✓"; color: #fff; font-weight: 900; }
+        .check-item input:checked ~ .check-text { color: #7a7062; }
+        .check-text strong { display: block; color: #2c1810; }
+        .check-item input:checked ~ .check-text strong { color: #7a7062; text-decoration: line-through; }
+        .checklist-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.2rem; }
+        .checklist-actions button {
+            font-family: 'Cinzel', serif; font-weight: 800; border: none; border-radius: 999px;
+            padding: 0.6rem 1.2rem; cursor: pointer; font-size: 0.9rem;
+        }
+        #completeAll { background: linear-gradient(45deg,#08c825d1,#04698de2); color: #fff; }
+        #resetChecklist { background: #f2ead9; color: #2c1810; }
+        .checklist-privacy { font-size: 0.85rem; color: #6b6152; margin-top: 1rem; }
+
+        .season-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+        .season-card { background: rgba(255,255,255,0.85); border-radius: 20px; padding: 1.3rem; border-top: 6px solid #d4af37; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+        .season-card:nth-child(2) { border-top-color: #08c825; }
+        .season-card:nth-child(3) { border-top-color: #ff8c42; }
+        .season-card:nth-child(4) { border-top-color: #04698d; }
+        .season-card h3 { color: #2c1810; margin-bottom: 0.6rem; font-size: 1.1rem; }
+        .season-card ul { padding-left: 1.1rem; }
+        .season-card li + li { margin-top: 0.4rem; }
+
+        .problems-table-wrap { overflow-x: auto; background: rgba(255,255,255,0.85); border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+        .problems-table-wrap table { border-collapse: collapse; width: 100%; min-width: 620px; }
+        .problems-table-wrap th, .problems-table-wrap td { padding: 0.9rem 1.1rem; text-align: left; border-bottom: 1px solid #e7ded0; vertical-align: top; }
+        .problems-table-wrap th { background: linear-gradient(45deg,#08c825d1,#04698de2); color: #fff; font-family: 'Cinzel', serif; }
+        .problems-table-wrap tr:last-child td { border-bottom: none; }
+
+        @media (max-width: 850px) { .season-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 560px) { .season-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <!-- SCROLL INDICATOR -->
+    <div class="scroll-indicator"></div>
+    
+    <!-- QUEEN BEE CURSOR -->
+    <div id="queenBee"></div>
+    
+    <!-- TITLE BAR -->
+    <header class="title-bar">
+        <a href="../index.html" class="logo-link">
+            <img src="../assets/logo.webp" alt="A.B.S Pristine Harvest Logo" class="logo">
+        </a>
+        <h1 id="navTitle" class="premium-title">A.B.S Pristine Harvest</h1>
+        <nav class="nav-menu">
+            <a href="#home" class="nav-link" id="navHome">Overview</a>
+            <a href="#checklist" class="nav-link" id="navChecklist">Checklist</a>
+            <a href="#calendar" class="nav-link" id="navCalendar">Seasonal Care</a>
+            <a href="#tips" class="nav-link" id="navTips">Tips</a>
+            <div class="blog-container">
+                <a href="#" class="nav-link blog-link" aria-haspopup="true">Blog</a>
+                <ul class="blog-dropdown">
+                    <li data-url="how_to.html">How to Get Started</li>
+                    <li data-url="beekeeping.html">Beekeeping Tips</li>
+                    <li data-soon="true">Honey Types</li>
+                    <li data-soon="true">Queen Rearing</li>
+                    <li data-soon="true">Workshops &amp; Events</li>
+                </ul>
+
+            </div>
+           
+        </nav>
+        <div class="lang-selector">
+            <button class="lang-btn active" data-lang="en"><span class="flag">🇺🇸</span><span class="text">EN</span></button>
+            <button class="lang-btn" data-lang="ne"><span class="flag">🇳🇵</span><span class="text">ने</span></button>
+            <button class="lang-btn" data-lang="sl"><span class="flag">🇸🇮</span><span class="text">SL</span></button>
+        </div>
+    </header>
+    <div id="zoom-outer">
+    <div id="zoom-wrapper">   
+        <main>
+                <!-- HERO SECTION -->
+                <section id="home" class="home section">
+                    <h1 id="hTitle">Beekeeping Tips &amp; Ideas</h1>
+                    <p id="hText">Practical field guidance for healthier colonies, better honey harvests, locally adapted queens, and sustainable beekeeping in Nepal - from a weekly hive checklist to a season-by-season care calendar.</p>
+                </section>
+
+                <!-- INTERACTIVE CHECKLIST -->
+                <section id="checklist" class="about section">
+                    <h2 id="checklistTitle">Interactive Hive Inspection Checklist</h2>
+                    <div class="tip-note"><strong id="reminderLabel">Field reminder:</strong> <span id="reminderText">Open colonies only in calm, suitable weather. Work gently, use smoke lightly, and write down what you observe after every inspection.</span></div>
+                    <div class="checklist-card">
+                        <div class="progress-row">
+                            <span id="progressText">0 of 10 completed</span>
+                            <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+                        </div>
+                        <label class="check-item"><input type="checkbox" data-check="weather"><span class="checkmark"></span><span class="check-text"><strong id="cWeatherTitle">Choose suitable weather</strong><span id="cWeatherText">Inspect in calm, warm, dry conditions when foragers are active.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="queen"><span class="checkmark"></span><span class="check-text"><strong id="cQueenTitle">Confirm queen status</strong><span id="cQueenText">Look for the queen or evidence of her presence: fresh eggs and young larvae.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="brood"><span class="checkmark"></span><span class="check-text"><strong id="cBroodTitle">Check brood pattern</strong><span id="cBroodText">Look for a compact, healthy brood pattern and note any unusual cells.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="food"><span class="checkmark"></span><span class="check-text"><strong id="cFoodTitle">Assess honey and pollen stores</strong><span id="cFoodText">Confirm the colony has enough food for current conditions.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="space"><span class="checkmark"></span><span class="check-text"><strong id="cSpaceTitle">Check colony space</strong><span id="cSpaceText">Look for crowding, queen cells, or a need for more room during nectar flow.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="pests"><span class="checkmark"></span><span class="check-text"><strong id="cPestsTitle">Watch for pests and disease signs</strong><span id="cPestsText">Observe adult bees, brood, comb, and hive floor for anything unusual.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="entrance"><span class="checkmark"></span><span class="check-text"><strong id="cEntranceTitle">Inspect entrance and ventilation</strong><span id="cEntranceText">Keep the entrance clear and make sure the hive is dry and well ventilated.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="water"><span class="checkmark"></span><span class="check-text"><strong id="cWaterTitle">Check water availability</strong><span id="cWaterText">Provide clean, shallow water with stones or floating sticks to land on.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="records"><span class="checkmark"></span><span class="check-text"><strong id="cRecordsTitle">Write inspection notes</strong><span id="cRecordsText">Record queen status, brood, stores, temperament, and any action needed.</span></span></label>
+                        <label class="check-item"><input type="checkbox" data-check="tools"><span class="checkmark"></span><span class="check-text"><strong id="cToolsTitle">Clean tools and close gently</strong><span id="cToolsText">Leave the colony orderly and avoid crushing bees while replacing frames.</span></span></label>
+                        <div class="checklist-actions">
+                            <button id="completeAll" type="button">Mark all complete</button>
+                            <button id="resetChecklist" type="button">Reset checklist</button>
+                        </div>
+                        <p class="checklist-privacy" id="checklistPrivacy">Your checklist is saved only in this browser and clears automatically after 1 hour. It is not sent to our server or shared with anyone.</p>
+                    </div>
+                </section>
+
+                <!-- SEASONAL CARE -->
+                <section id="calendar" class="about section">
+                    <h2 id="calendarTitle">Seasonal Apiary Care</h2>
+                    <p id="calendarIntro" style="margin-bottom:1.2rem;">Use this as a general planning guide and adjust it to your altitude, local flowering periods, and weather.</p>
+                    <div class="season-grid">
+                        <article class="season-card"><h3 id="season1Title">Spring</h3><ul><li id="season1Li1">Check colony strength after winter</li><li id="season1Li2">Watch for swarming preparations</li><li id="season1Li3">Add space during nectar flow</li><li id="season1Li4">Prepare splits and nucleus colonies</li></ul></article>
+                        <article class="season-card"><h3 id="season2Title">Summer &amp; Monsoon</h3><ul><li id="season2Li1">Improve drainage and ventilation</li><li id="season2Li2">Protect hives from heavy rain</li><li id="season2Li3">Keep entrances clear of vegetation</li><li id="season2Li4">Monitor weak colonies closely</li></ul></article>
+                        <article class="season-card"><h3 id="season3Title">Autumn</h3><ul><li id="season3Li1">Assess food stores for cooler months</li><li id="season3Li2">Replace damaged equipment</li><li id="season3Li3">Evaluate queen performance</li><li id="season3Li4">Plan colony increases</li></ul></article>
+                        <article class="season-card"><h3 id="season4Title">Winter</h3><ul><li id="season4Li1">Reduce unnecessary disturbance</li><li id="season4Li2">Protect from cold wind and dampness</li><li id="season4Li3">Monitor food reserves</li><li id="season4Li4">Prepare tools for spring</li></ul></article>
+                    </div>
+                </section>
+
+                <!-- PRACTICAL TIPS -->
+                <section id="tips" class="bees section">
+                    <h2 id="tipsTitle">Practical Beekeeping Ideas</h2>
+                    <p id="tipsIntro" style="margin-bottom:1.2rem;">From traditional log hives to framed boxes, success starts with healthy colonies, good forage, and thoughtful management.</p>
+                    <div class="bee-grid">
+                        <div class="bee-card"><h3 id="tip1Title">Start with strong colonies</h3><ul><li id="tip1Li1">Choose healthy, locally adapted bees</li><li id="tip1Li2">Buy queens and nucleus colonies from trusted sources</li><li id="tip1Li3">Begin with manageable colony numbers</li><li id="tip1Li4">Keep a simple inspection record</li></ul></div>
+                        <div class="bee-card"><h3 id="tip2Title">Manage swarming early</h3><ul><li id="tip2Li1">Look for congestion and charged queen cells</li><li id="tip2Li2">Provide space before the colony becomes crowded</li><li id="tip2Li3">Make splits from strong colonies when appropriate</li><li id="tip2Li4">Use swarms to preserve valuable local genetics</li></ul></div>
+                        <div class="bee-card"><h3 id="tip3Title">Support bee nutrition</h3><ul><li id="tip3Li1">Plant diverse nectar and pollen sources</li><li id="tip3Li2">Keep flowering plants across seasons</li><li id="tip3Li3">Offer clean water near the apiary</li><li id="tip3Li4">Avoid pesticide use during bloom</li></ul></div>
+                        <div class="bee-card"><h3 id="tip4Title">Raise better queens</h3><ul><li id="tip4Li1">Select calm, productive breeder colonies</li><li id="tip4Li2">Prioritize healthy brood and survival</li><li id="tip4Li3">Use strong nurse colonies for queen cells</li><li id="tip4Li4">Record emergence and mating dates</li></ul></div>
+                        <div class="bee-card"><h3 id="tip5Title">Feed with care</h3><ul><li id="tip5Li1">Feed only when stores and forage are inadequate</li><li id="tip5Li2">Keep feeders clean and prevent spills</li><li id="tip5Li3">Never use honey from unknown colonies</li><li id="tip5Li4">Remove feed before harvesting honey</li></ul></div>
+                        <div class="bee-card"><h3 id="tip6Title">Harvest responsibly</h3><ul><li id="tip6Li1">Take only surplus honey</li><li id="tip6Li2">Leave enough stores for the colony</li><li id="tip6Li3">Use clean, food-safe equipment</li><li id="tip6Li4">Label variety, date, and harvest location</li></ul></div>
+                    </div>
+                </section>
+
+                <!-- COMMON PROBLEMS -->
+                <section id="problems" class="about section">
+                    <h2 id="problemsTitle">Common Field Problems</h2>
+                    <p id="problemsIntro" style="margin-bottom:1.2rem;">Use observations, not assumptions, to decide the next step. Recheck uncertain colonies rather than acting too quickly.</p>
+                    <div class="problems-table-wrap">
+                        <table>
+                            <thead><tr><th id="thObs">Observation</th><th id="thReason">Possible reason</th><th id="thAction">Useful next action</th></tr></thead>
+                            <tbody>
+                                <tr><td id="row1Obs">Few eggs or young larvae</td><td id="row1Reason">Queen failure, recent swarming, or poor mating</td><td id="row1Action">Reinspect and assess whether the colony needs a queen.</td></tr>
+                                <tr><td id="row2Obs">Bees clustering outside</td><td id="row2Reason">Heat, congestion, or possible pre-swarm behaviour</td><td id="row2Action">Improve ventilation and inspect available space.</td></tr>
+                                <tr><td id="row3Obs">Low food stores</td><td id="row3Reason">Nectar dearth, bad weather, or a weak colony</td><td id="row3Action">Assess stores and provide support if needed.</td></tr>
+                                <tr><td id="row4Obs">Ant activity around hive</td><td id="row4Reason">Food spills or an attractive hive stand</td><td id="row4Action">Clean spills and use a suitable stand barrier.</td></tr>
+                                <tr><td id="row5Obs">Wax moth damage</td><td id="row5Reason">Weak colony or poorly stored comb</td><td id="row5Action">Strengthen the colony and store comb carefully.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- CONTACT CTA -->
+                <section id="contact" class="about section">
+                    <div class="highlight" style="text-align:center;">
+                        <h2 id="contactTitle" style="margin-bottom:0.8rem;">Grow With Our Apiary Community</h2>
+                        <p id="benefitsText" style="margin-bottom:1.2rem;">Explore traditional Nepali hive practices, queen rearing, local forage, raw honey, and hands-on learning opportunities.</p>
+                        <a href="../index.html#contact" class="nav-link" id="contactBtn" style="background:linear-gradient(45deg,#08c825d1,#04698de2); color:#fff; display:inline-block;">Contact Our Apiary</a>
+                    </div>
+                </section>
+        </main>
+    </div>
+    </div><!-- /zoom-outer -->
+
+    <div id="blogSoon" class="toast" role="status" aria-live="polite">This page is coming soon.</div>
+
+    <script>
+        let targetX = 50, targetY = 50, currentX = 50, currentY = 50;
+        let currentLang = 'en', isMobile = false;
+        let appScale = 1, initialDistance = 0, initialScale = 1;
+        let isDragging = false, startX = 0, startY = 0;
+        let wrapper = null;
+        let panX = 0, panY = 0;
+
+        const translations = {
+            en: {
+                navTitle: "A.B.S Pristine Harvest",
+                navHome: "Overview",
+                navChecklist: "Checklist",
+                navCalendar: "Seasonal Care",
+                navTips: "Tips",
+                hTitle: "Beekeeping Tips & Ideas",
+                hText: "Practical field guidance for healthier colonies, better honey harvests, locally adapted queens, and sustainable beekeeping in Nepal - from a weekly hive checklist to a season-by-season care calendar.",
+                checklistTitle: "Interactive Hive Inspection Checklist",
+                reminderLabel: "Field reminder:",
+                reminderText: "Open colonies only in calm, suitable weather. Work gently, use smoke lightly, and write down what you observe after every inspection.",
+                cWeatherTitle: "Choose suitable weather", cWeatherText: "Inspect in calm, warm, dry conditions when foragers are active.",
+                cQueenTitle: "Confirm queen status", cQueenText: "Look for the queen or evidence of her presence: fresh eggs and young larvae.",
+                cBroodTitle: "Check brood pattern", cBroodText: "Look for a compact, healthy brood pattern and note any unusual cells.",
+                cFoodTitle: "Assess honey and pollen stores", cFoodText: "Confirm the colony has enough food for current conditions.",
+                cSpaceTitle: "Check colony space", cSpaceText: "Look for crowding, queen cells, or a need for more room during nectar flow.",
+                cPestsTitle: "Watch for pests and disease signs", cPestsText: "Observe adult bees, brood, comb, and hive floor for anything unusual.",
+                cEntranceTitle: "Inspect entrance and ventilation", cEntranceText: "Keep the entrance clear and make sure the hive is dry and well ventilated.",
+                cWaterTitle: "Check water availability", cWaterText: "Provide clean, shallow water with stones or floating sticks to land on.",
+                cRecordsTitle: "Write inspection notes", cRecordsText: "Record queen status, brood, stores, temperament, and any action needed.",
+                cToolsTitle: "Clean tools and close gently", cToolsText: "Leave the colony orderly and avoid crushing bees while replacing frames.",
+                completeAll: "Mark all complete",
+                resetChecklist: "Reset checklist",
+                checklistPrivacy: "Your checklist is saved only in this browser and clears automatically after an hour. It is not sent to our server or shared with anyone.",
+                progressTemplate: "{c} of {n} completed",
+                calendarTitle: "Seasonal Apiary Care",
+                calendarIntro: "Use this as a general planning guide and adjust it to your altitude, local flowering periods, and weather.",
+                season1Title: "Spring", season1Li1: "Check colony strength after winter", season1Li2: "Watch for swarming preparations", season1Li3: "Add space during nectar flow", season1Li4: "Prepare splits and nucleus colonies",
+                season2Title: "Summer & Monsoon", season2Li1: "Improve drainage and ventilation", season2Li2: "Protect hives from heavy rain", season2Li3: "Keep entrances clear of vegetation", season2Li4: "Monitor weak colonies closely",
+                season3Title: "Autumn", season3Li1: "Assess food stores for cooler months", season3Li2: "Replace damaged equipment", season3Li3: "Evaluate queen performance", season3Li4: "Plan colony increases",
+                season4Title: "Winter", season4Li1: "Reduce unnecessary disturbance", season4Li2: "Protect from cold wind and dampness", season4Li3: "Monitor food reserves", season4Li4: "Prepare tools for spring",
+                tipsTitle: "Practical Beekeeping Ideas",
+                tipsIntro: "From traditional log hives to framed boxes, success starts with healthy colonies, good forage, and thoughtful management.",
+                tip1Title: "Start with strong colonies", tip1Li1: "Choose healthy, locally adapted bees", tip1Li2: "Buy queens and nucleus colonies from trusted sources", tip1Li3: "Begin with manageable colony numbers", tip1Li4: "Keep a simple inspection record",
+                tip2Title: "Manage swarming early", tip2Li1: "Look for congestion and charged queen cells", tip2Li2: "Provide space before the colony becomes crowded", tip2Li3: "Make splits from strong colonies when appropriate", tip2Li4: "Use swarms to preserve valuable local genetics",
+                tip3Title: "Support bee nutrition", tip3Li1: "Plant diverse nectar and pollen sources", tip3Li2: "Keep flowering plants across seasons", tip3Li3: "Offer clean water near the apiary", tip3Li4: "Avoid pesticide use during bloom",
+                tip4Title: "Raise better queens", tip4Li1: "Select calm, productive breeder colonies", tip4Li2: "Prioritize healthy brood and survival", tip4Li3: "Use strong nurse colonies for queen cells", tip4Li4: "Record emergence and mating dates",
+                tip5Title: "Feed with care", tip5Li1: "Feed only when stores and forage are inadequate", tip5Li2: "Keep feeders clean and prevent spills", tip5Li3: "Never use honey from unknown colonies", tip5Li4: "Remove feed before harvesting honey",
+                tip6Title: "Harvest responsibly", tip6Li1: "Take only surplus honey", tip6Li2: "Leave enough stores for the colony", tip6Li3: "Use clean, food-safe equipment", tip6Li4: "Label variety, date, and harvest location",
+                problemsTitle: "Common Field Problems",
+                problemsIntro: "Use observations, not assumptions, to decide the next step. Recheck uncertain colonies rather than acting too quickly.",
+                thObs: "Observation", thReason: "Possible reason", thAction: "Useful next action",
+                row1Obs: "Few eggs or young larvae", row1Reason: "Queen failure, recent swarming, or poor mating", row1Action: "Reinspect and assess whether the colony needs a queen.",
+                row2Obs: "Bees clustering outside", row2Reason: "Heat, congestion, or possible pre-swarm behaviour", row2Action: "Improve ventilation and inspect available space.",
+                row3Obs: "Low food stores", row3Reason: "Nectar dearth, bad weather, or a weak colony", row3Action: "Assess stores and provide support if needed.",
+                row4Obs: "Ant activity around hive", row4Reason: "Food spills or an attractive hive stand", row4Action: "Clean spills and use a suitable stand barrier.",
+                row5Obs: "Wax moth damage", row5Reason: "Weak colony or poorly stored comb", row5Action: "Strengthen the colony and store comb carefully.",
+                contactTitle: "Grow With Our Apiary Community",
+                benefitsText: "Explore traditional Nepali hive practices, queen rearing, local forage, raw honey, and hands-on learning opportunities.",
+                contactBtn: "Contact Our Apiary",
+                blogSoon: "This page is coming soon."
+            },
+            ne: {
+                navHome: "सिंहावलोकन", navChecklist: "जाँचसूची", navCalendar: "मौसमी हेरचाह", navTips: "सुझावहरू",
+                hTitle: "मौरीपालन सुझावहरू",
+                hText: "स्वस्थ मौरी समूह, राम्रो मह उत्पादन, स्थानीय रूपमा अनुकूलित रानी मौरी, र दिगो मौरीपालनका लागि व्यावहारिक फिल्ड मार्गदर्शन - साप्ताहिक जाँचसूचीदेखि मौसमी हेरचाह क्यालेन्डरसम्म।",
+                checklistTitle: "अन्तरक्रियात्मक मौरीघार निरीक्षण जाँचसूची",
+                reminderLabel: "फिल्ड सम्झना:",
+                reminderText: "समूह शान्त, उपयुक्त मौसममा मात्र खोल्नुहोस्। बिस्तारै काम गर्नुहोस्, धुवाँ हल्का प्रयोग गर्नुहोस्, र प्रत्येक निरीक्षणपछि आफूले देखेको कुरा लेख्नुहोस्।",
+                cWeatherTitle: "उपयुक्त मौसम छान्नुहोस्", cWeatherText: "मौरीहरू सक्रिय हुँदा, शान्त, न्यानो र सुख्खा मौसममा निरीक्षण गर्नुहोस्।",
+                cQueenTitle: "रानी मौरीको अवस्था पुष्टि गर्नुहोस्", cQueenText: "रानी मौरी वा उनको उपस्थितिको प्रमाण खोज्नुहोस्: ताजा अण्डा र साना लार्भा।",
+                cBroodTitle: "ब्रूड ढाँचा जाँच गर्नुहोस्", cBroodText: "बाक्लो, स्वस्थ ब्रूड ढाँचा हेर्नुहोस् र कुनै असामान्य कोष भए टिपोट गर्नुहोस्।",
+                cFoodTitle: "मह र पराग भण्डार जाँच गर्नुहोस्", cFoodText: "हालको अवस्थाका लागि समूहसँग पर्याप्त खाना छ भन्ने पुष्टि गर्नुहोस्।",
+                cSpaceTitle: "समूहको ठाउँ जाँच गर्नुहोस्", cSpaceText: "भीडभाड, रानी कोष, वा मह प्रवाहको समयमा थप ठाउँको आवश्यकता छ कि हेर्नुहोस्।",
+                cPestsTitle: "कीट र रोगका लक्षणहरू हेर्नुहोस्", cPestsText: "वयस्क मौरी, ब्रूड, मौरीघार, र चाकाको भुइँमा कुनै असामान्य कुरा छ कि अवलोकन गर्नुहोस्।",
+                cEntranceTitle: "प्रवेशद्वार र हावा-प्रवाह जाँच गर्नुहोस्", cEntranceText: "प्रवेशद्वार खुला राख्नुहोस् र मौरीघार सुख्खा तथा राम्रोसँग हावा-प्रवाह भएको सुनिश्चित गर्नुहोस्।",
+                cWaterTitle: "पानीको उपलब्धता जाँच गर्नुहोस्", cWaterText: "ढुङ्गा वा तैरने काठसहित सफा, उथलो पानी उपलब्ध गराउनुहोस् जसमा मौरी बस्न सकून्।",
+                cRecordsTitle: "निरीक्षण टिपोट लेख्नुहोस्", cRecordsText: "रानी मौरीको अवस्था, ब्रूड, भण्डार, स्वभाव, र आवश्यक कार्य रेकर्ड गर्नुहोस्।",
+                cToolsTitle: "औजार सफा गर्नुहोस् र बिस्तारै बन्द गर्नुहोस्", cToolsText: "समूहलाई व्यवस्थित राख्नुहोस् र फ्रेम फर्काउँदा मौरीहरू नथिचिने ध्यान दिनुहोस्।",
+                completeAll: "सबै पूरा भएको चिन्ह लगाउनुहोस्",
+                resetChecklist: "जाँचसूची रिसेट गर्नुहोस्",
+                checklistPrivacy: "तपाईंको जाँचसूची यो ब्राउजरमा मात्र सुरक्षित हुन्छ र केही घण्टापछि स्वतः खाली हुन्छ। यो हाम्रो सर्भरमा पठाइँदैन वा कसैसँग साझा गरिँदैन।",
+                progressTemplate: "{n} मध्ये {c} पूरा भयो",
+                calendarTitle: "मौसमी मौरीघार हेरचाह",
+                calendarIntro: "यसलाई सामान्य योजना मार्गदर्शकको रूपमा प्रयोग गर्नुहोस् र आफ्नो उचाइ, स्थानीय फूल फुल्ने समय, र मौसम अनुसार समायोजन गर्नुहोस्।",
+                season1Title: "वसन्त", season1Li1: "जाडोपछि समूहको बल जाँच गर्नुहोस्", season1Li2: "झुण्ड बनाउने तयारी हेर्नुहोस्", season1Li3: "मह प्रवाहको समयमा थप ठाउँ थप्नुहोस्", season1Li4: "विभाजन र न्यूक्लियस समूह तयार गर्नुहोस्",
+                season2Title: "गर्मी र मनसुन", season2Li1: "जल निकास र हावा-प्रवाह सुधार गर्नुहोस्", season2Li2: "मौरीघारलाई भारी वर्षाबाट जोगाउनुहोस्", season2Li3: "प्रवेशद्वारलाई बोटबिरुवाबाट खाली राख्नुहोस्", season2Li4: "कमजोर समूहलाई नजिकबाट अनुगमन गर्नुहोस्",
+                season3Title: "शरद", season3Li1: "चिसो महिनाका लागि खाना भण्डार मूल्याङ्कन गर्नुहोस्", season3Li2: "क्षतिग्रस्त उपकरण बदल्नुहोस्", season3Li3: "रानी मौरीको कार्यसम्पादन मूल्याङ्कन गर्नुहोस्", season3Li4: "समूह वृद्धिको योजना बनाउनुहोस्",
+                season4Title: "जाडो", season4Li1: "अनावश्यक बाधा कम गर्नुहोस्", season4Li2: "चिसो हावा र चिसोपनबाट जोगाउनुहोस्", season4Li3: "खाना भण्डार अनुगमन गर्नुहोस्", season4Li4: "वसन्तका लागि औजार तयार गर्नुहोस्",
+                tipsTitle: "व्यावहारिक मौरीपालन सुझावहरू",
+                tipsIntro: "परम्परागत काठको मौरीघारदेखि फ्रेम भएको बाकसम्म, सफलता स्वस्थ समूह, राम्रो चरन, र विचारशील व्यवस्थापनबाट सुरु हुन्छ।",
+                tip1Title: "बलियो समूहबाट सुरु गर्नुहोस्", tip1Li1: "स्वस्थ, स्थानीय रूपमा अनुकूलित मौरी छान्नुहोस्", tip1Li2: "भरपर्दो स्रोतबाट रानी र न्यूक्लियस समूह किन्नुहोस्", tip1Li3: "व्यवस्थापन गर्न सकिने समूह संख्याबाट सुरु गर्नुहोस्", tip1Li4: "सरल निरीक्षण रेकर्ड राख्नुहोस्",
+                tip2Title: "झुण्ड बन्ने समस्या समयमै व्यवस्थापन गर्नुहोस्", tip2Li1: "भीडभाड र सक्रिय रानी कोष खोज्नुहोस्", tip2Li2: "समूह भीडभाड हुनुअघि नै ठाउँ दिनुहोस्", tip2Li3: "उपयुक्त भएमा बलियो समूहबाट विभाजन गर्नुहोस्", tip2Li4: "मूल्यवान स्थानीय जीन संरक्षण गर्न झुण्ड प्रयोग गर्नुहोस्",
+                tip3Title: "मौरीको पोषणमा सहयोग गर्नुहोस्", tip3Li1: "विविध मह र पराग स्रोत रोप्नुहोस्", tip3Li2: "सबै मौसममा फुल्ने बोटबिरुवा राख्नुहोस्", tip3Li3: "मौरीघार नजिक सफा पानी उपलब्ध गराउनुहोस्", tip3Li4: "फूल फुल्ने बेला कीटनाशक प्रयोग नगर्नुहोस्",
+                tip4Title: "राम्रो रानी मौरी उत्पादन गर्नुहोस्", tip4Li1: "शान्त, उत्पादनशील ब्रीडर समूह छान्नुहोस्", tip4Li2: "स्वस्थ ब्रूड र बाँच्ने क्षमतालाई प्राथमिकता दिनुहोस्", tip4Li3: "रानी कोषका लागि बलियो नर्स समूह प्रयोग गर्नुहोस्", tip4Li4: "निस्कने र संगमको मिति रेकर्ड गर्नुहोस्",
+                tip5Title: "सावधानीपूर्वक खुवाउनुहोस्", tip5Li1: "भण्डार र चरन अपर्याप्त हुँदा मात्र खुवाउनुहोस्", tip5Li2: "फिडर सफा राख्नुहोस् र चुहावट रोक्नुहोस्", tip5Li3: "अज्ञात समूहको मह कहिल्यै प्रयोग नगर्नुहोस्", tip5Li4: "मह झिक्नुअघि दाना हटाउनुहोस्",
+                tip6Title: "जिम्मेवारीपूर्वक मह संकलन गर्नुहोस्", tip6Li1: "बाँकी बचेको मह मात्र लिनुहोस्", tip6Li2: "समूहका लागि पर्याप्त भण्डार छोड्नुहोस्", tip6Li3: "सफा, खाद्य-सुरक्षित उपकरण प्रयोग गर्नुहोस्", tip6Li4: "प्रकार, मिति, र संकलन स्थान लेबल गर्नुहोस्",
+                problemsTitle: "सामान्य फिल्ड समस्याहरू",
+                problemsIntro: "अर्को कदम तय गर्न अनुमान होइन, अवलोकनको प्रयोग गर्नुहोस्। छिटो कारबाही गर्नुभन्दा अनिश्चित समूहलाई पुनः जाँच गर्नुहोस्।",
+                thObs: "अवलोकन", thReason: "सम्भावित कारण", thAction: "उपयोगी अर्को कदम",
+                row1Obs: "थोरै अण्डा वा साना लार्भा", row1Reason: "रानी असफलता, हालैको झुण्ड, वा कमजोर संगम", row1Action: "पुनः निरीक्षण गर्नुहोस् र समूहलाई रानी चाहिन्छ कि मूल्याङ्कन गर्नुहोस्।",
+                row2Obs: "मौरी बाहिर झुण्डिने", row2Reason: "गर्मी, भीडभाड, वा झुण्ड बन्नुअघिको व्यवहार", row2Action: "हावा-प्रवाह सुधार गर्नुहोस् र उपलब्ध ठाउँ जाँच गर्नुहोस्।",
+                row3Obs: "कम खाना भण्डार", row3Reason: "मह अभाव, खराब मौसम, वा कमजोर समूह", row3Action: "भण्डार मूल्याङ्कन गर्नुहोस् र आवश्यक परे सहयोग गर्नुहोस्।",
+                row4Obs:"मौरीघार वरिपरि कमिलाको गतिविधि", row4Reason: "खाना चुहावट वा आकर्षक मौरीघार स्ट्यान्ड", row4Action: "चुहावट सफा गर्नुहोस् र उपयुक्त स्ट्यान्ड ब्यारियर प्रयोग गर्नुहोस्।",
+                row5Obs: "मैनको कीराबाट क्षति", row5Reason: "कमजोर समूह वा राम्रोसँग भण्डारण नगरिएको चाका", row5Action: "समूहलाई बलियो बनाउनुहोस् र चाका होसियारीपूर्वक भण्डारण गर्नुहोस्।",
+                contactTitle: "हाम्रो मौरीघार समुदायसँग बढ्नुहोस्",
+                benefitsText: "परम्परागत नेपाली मौरीघार अभ्यास, रानी उत्पादन, स्थानीय चरन, कच्चा मह, र प्रत्यक्ष सिकाइका अवसरहरू अन्वेषण गर्नुहोस्।",
+                contactBtn: "हाम्रो मौरीघारलाई सम्पर्क गर्नुहोस्",
+                blogSoon: "यो पृष्ठ छिट्टै आउँदैछ।"
+            },
+            sl: {
+                navHome: "Pregled", navChecklist: "Kontrolni seznam", navCalendar: "Sezonska nega", navTips: "Nasveti",
+                hTitle: "Nasveti za čebelarjenje",
+                hText: "Praktični terenski nasveti za zdravejše družine, boljši pridelek medu, lokalno prilagojene matice in trajnostno čebelarjenje v Nepalu - od tedenskega kontrolnega seznama do sezonskega koledarja nege.",
+                checklistTitle: "Interaktivni kontrolni seznam za pregled panja",
+                reminderLabel: "Opomnik za teren:",
+                reminderText: "Panje odpirajte le v mirnem, primernem vremenu. Delajte nežno, dima uporabite malo in po vsakem pregledu zapišite svoja opažanja.",
+                cWeatherTitle: "Izberite primerno vreme", cWeatherText: "Pregled opravite v mirnem, toplem in suhem vremenu, ko so nabiralke aktivne.",
+                cQueenTitle: "Potrdite prisotnost matice", cQueenText: "Poiščite matico ali dokaze o njeni prisotnosti: sveža jajčeca in mlade ličinke.",
+                cBroodTitle: "Preglejte vzorec zalege", cBroodText: "Poiščite strnjen, zdrav vzorec zalege in opazite morebitne nenavadne celice.",
+                cFoodTitle: "Ocenite zaloge medu in cvetnega prahu", cFoodText: "Preverite, ali ima družina dovolj hrane za trenutne razmere.",
+                cSpaceTitle: "Preverite prostor v panju", cSpaceText: "Bodite pozorni na gnečo, matičnike ali potrebo po dodatnem prostoru med pašo.",
+                cPestsTitle: "Bodite pozorni na škodljivce in znake bolezni", cPestsText: "Opazujte odrasle čebele, zalego, satje in dno panja za morebitne nepravilnosti.",
+                cEntranceTitle: "Preglejte vhod in prezračevanje", cEntranceText: "Vhod naj bo odprt in prost ovir, panj pa naj bo suh in dobro prezračen.",
+                cWaterTitle: "Preverite dostopnost vode", cWaterText: "Zagotovite čisto, plitvo vodo s kamni ali plavajočimi palicami za pristajanje.",
+                cRecordsTitle: "Zapišite opažanja", cRecordsText: "Zabeležite stanje matice, zalege, zalog, temperament družine in potrebne ukrepe.",
+                cToolsTitle: "Očistite orodje in nežno zaprite panj", cToolsText: "Panj pustite urejen in pazite, da pri vračanju okvirjev ne zmečkate čebel.",
+                completeAll: "Označi vse kot dokončano",
+                resetChecklist: "Ponastavi seznam",
+                checklistPrivacy: "Vaš seznam je shranjen samo v tem brskalniku in se samodejno počisti po nekaj urah. Ni poslan na naš strežnik in ni deljen z nikomer.",
+                progressTemplate: "{c} od {n} dokončano",
+                calendarTitle: "Sezonska nega čebelnjaka",
+                calendarIntro: "To uporabite kot splošno vodilo za načrtovanje in ga prilagodite svoji nadmorski višini, lokalnemu obdobju cvetenja in vremenu.",
+                season1Title: "Pomlad", season1Li1: "Preverite moč družine po zimi", season1Li2: "Bodite pozorni na priprave na rojenje", season1Li3: "Med pašo dodajte prostor", season1Li4: "Pripravite delitve in nuklease",
+                season2Title: "Poletje in monsun", season2Li1: "Izboljšajte odvodnjavanje in prezračevanje", season2Li2: "Zaščitite panje pred močnim dežjem", season2Li3: "Vhod naj bo prost rastlinja", season2Li4: "Pozorno spremljajte šibke družine",
+                season3Title: "Jesen", season3Li1: "Ocenite zaloge hrane za hladnejše mesece", season3Li2: "Zamenjajte poškodovano opremo", season3Li3: "Ocenite učinkovitost matice", season3Li4: "Načrtujte povečanje števila družin",
+                season4Title: "Zima", season4Li1: "Zmanjšajte nepotrebno motenje", season4Li2: "Zaščitite pred mrzlim vetrom in vlago", season4Li3: "Spremljajte zaloge hrane", season4Li4: "Pripravite delitve in nukleuse",
+                tipsTitle: "Praktične ideje za čebelarjenje",
+                tipsIntro: "Od tradicionalnih panjev iz hlodov do panjev z okvirji uspeh temelji na zdravih čebeljih družinah, dobri paši in premišljenem upravljanju.",
+                tip1Title: "Začnite z močnimi družinami", tip1Li1: "Izberite zdrave, lokalno prilagojene čebele", tip1Li2: "Matice in nukleuse kupujte pri zaupanja vrednih virih", tip1Li3: "Začnite z obvladljivim številom družin", tip1Li4: "Vodite preprosto evidenco pregledov",
+                tip2Title: "Zgodaj obvladujte rojenje", tip2Li1: "Bodite pozorni na gnečo in aktivne matičnike", tip2Li2: "Zagotovite prostor, preden postane družina prenatrpana", tip2Li3: "Kadar je primerno, naredite delitve iz močnih družin", tip2Li4: "Roje uporabite za ohranjanje dragocene lokalne genetike",
+                tip3Title: "Podprite prehrano čebel", tip3Li1: "Zasadite raznolike vire nektarja in cvetnega prahu", tip3Li2: "Skrbite za cvetoče rastline skozi vse letne čase", tip3Li3: "Zagotovite čisto vodo blizu čebelnjaka", tip3Li4: "Med cvetenjem se izogibajte uporabi pesticidov",
+                tip4Title: "Vzrejajte boljše matice", tip4Li1: "Izberite mirne, produktivne matične družine", tip4Li2: "Dajte prednost zdravi zalegi in preživetju", tip4Li3: "Za matičnike uporabite močne negovalne družine", tip4Li4: "Zabeležite datume izleganja in parjenja",
+                tip5Title: "Previdno hranite", tip5Li1: "Hranite le, ko so zaloge in paša nezadostne", tip5Li2: "Krmilnike vzdržujte čiste in preprečite razlitje", tip5Li3: "Nikoli ne uporabljajte medu iz neznanih družin", tip5Li4: "Pred pobiranjem medu odstranite krmo",
+                tip6Title: "Odgovorno pobirajte med", tip6Li1: "Vzemite le presežek medu", tip6Li2: "Pustite dovolj zalog za družino", tip6Li3: "Uporabljajte čisto, za živila varno opremo", tip6Li4: "Označite sorto, datum in mesto pobiranja",
+                problemsTitle: "Pogoste terenske težave",
+                problemsIntro: "Pri odločanju o naslednjem koraku uporabite opažanja, ne domneve. Negotove družine raje ponovno preverite, kot da ukrepate prehitro.",
+                thObs: "Opažanje", thReason: "Možen vzrok", thAction: "Koristen naslednji korak",
+                row1Obs: "Malo jajčec ali mladih ličink", row1Reason: "Odpoved matice, nedavno rojenje ali slabo parjenje", row1Action: "Ponovno preglejte in ocenite, ali družina potrebuje matico.",
+                row2Obs: "Čebele se gručijo zunaj", row2Reason: "Vročina, gneča ali morebitno vedenje pred rojenjem", row2Action: "Izboljšajte prezračevanje in preverite razpoložljiv prostor.",
+                row3Obs: "Nizke zaloge hrane", row3Reason: "Pomanjkanje nektarja, slabo vreme ali šibka družina", row3Action: "Ocenite zaloge in po potrebi zagotovite podporo.",
+                row4Obs: "Mravlje okoli panja", row4Reason: "Razlita hrana ali privlačno stojalo za panj", row4Action: "Očistite razlitja in uporabite ustrezno pregrado na stojalu.",
+                row5Obs: "Poškodbe zaradi voščene vešče", row5Reason: "Šibka družina ali slabo shranjeno satje", row5Action: "Okrepite družino in skrbno shranjujte satje.",
+                contactTitle: "Rastite z našo čebelarsko skupnostjo",
+                benefitsText: "Raziščite tradicionalne nepalske prakse čebelarjenja, vzrejo matic, lokalno pašo, surovi med in priložnosti za praktično učenje.",
+                contactBtn: "Kontaktirajte naš čebelnjak",
+                blogSoon: "Ta stran bo kmalu na voljo."
+            }
+        };
+
+
+        // ALL FUNCTIONS 
+        function syncZoomHeight() {
+            const outer = document.getElementById('zoom-outer');
+            if (!outer || !wrapper) return;
+            if (appScale < 1) {
+                // shrink the page height to match the zoomed-out content (no empty scroll space)
+                outer.style.height = (wrapper.offsetHeight * appScale) + 'px';
+                outer.style.overflow = 'hidden';
+            } else {
+                outer.style.height = '';
+                outer.style.overflow = '';
+            }
+        }
+
+        function updateScale(scale) {
+            if (!wrapper) return;
+            appScale = Math.max(0.5, Math.min(3.0, scale));
+            const titleBar = document.querySelector('.title-bar');
+            
+            if (titleBar) {
+                titleBar.style.transform = 'none';
+                titleBar.style.position = 'fixed';
+                titleBar.style.top = '0';
+                titleBar.style.zIndex = '1000';
+            }
+    
+            wrapper.style.transform = `scale(${appScale}) translate(${panX}px, ${panY}px)`;
+            wrapper.style.transformOrigin = 'top center';
+            
+            wrapper.style.height = 'auto';
+            wrapper.style.overflowY = 'auto';
+            wrapper.style.overflowX = 'hidden';
+            document.body.style.overflow = 'auto';
+            syncZoomHeight();
+        }
+
+
+
+
+        function detectMobile() { 
+            isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent); 
+        }
+        function disableMobileZoom() {
+            if (isMobile) {
+                document.body.classList.add('mobile-zoom-disabled');
+                wrapper.style.transform = 'none';
+                wrapper.style.scale = '1';
+                appScale = 1;
+                panX = 0;
+                panY = 0;
+            }
+        }
+    
+        function handleInput(e) {
+            targetX = e.clientX || (e.touches?.[0]?.clientX) || targetX;
+            targetY = e.clientY || (e.touches?.[0]?.clientY) || targetY;
+        }
+        let rafId = null; 
+        let isVisible = true;
+        function animateQueen() {
+           if (document.visibilityState !== 'visible') {
+                isVisible = false; rafId = null;
+                return; 
+            }
+            
+            
+            if (!isVisible) {
+                isVisible = true;
+            } else {
+                currentX += (targetX - currentX - (isMobile ? 25 : 35)) * 0.16;
+                currentY += (targetY - currentY - (isMobile ? 35 : 45)) * 0.16;
+                const safeX = Math.max(30, Math.min(window.innerWidth - 60, currentX));
+                const safeY = Math.max(50, Math.min(window.innerHeight - 70, currentY));
+                const queenBee = document.getElementById('queenBee');
+                if (queenBee) {
+                    queenBee.style.left = safeX + 'px';
+                    queenBee.style.top = safeY + 'px';
+                    const angle = Math.atan2(targetY - currentY, targetX - currentX) * (isMobile ? 4 : 6);
+                    queenBee.style.transform = `rotate(${angle}deg)`;
+                }
+            }
+            
+            
+            rafId = requestAnimationFrame(animateQueen);
+        }
+        
+        // Show header only at the top of the page
+        const titleBar = document.querySelector('.title-bar');
+        function updateHeader() {
+            titleBar.classList.toggle('is-hidden', window.scrollY > 10);
+        }
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        updateHeader();
+
+
+        // HIVE INSPECTION CHECKLIST (saved for 1 hour in this browser only)
+        function initChecklist() {
+            const checks = [...document.querySelectorAll('[data-check]')];
+            if (!checks.length) return;
+            const key = 'absHiveChecklist';
+            const timeKey = 'absHiveChecklistTime';
+            const ONE_HOUR = 60 * 60 * 1000;
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+
+            function isExpired() {
+                const savedTime = parseInt(localStorage.getItem(timeKey) || '0', 10);
+                if (!savedTime) return true;
+                return (Date.now() - savedTime) > ONE_HOUR;
+            }
+            function clearSaved() {
+                localStorage.removeItem(key);
+                localStorage.removeItem(timeKey);
+            }
+            function refresh() {
+                if (isExpired()) {
+                    clearSaved();
+                    checks.forEach(c => c.checked = false);
+                } else {
+                    let saved = {};
+                    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) {}
+                    checks.forEach(c => c.checked = Boolean(saved[c.dataset.check]));
+                }
+                const complete = checks.filter(c => c.checked).length;
+                const dict = translations[currentLang] || translations.en;
+                const template = dict.progressTemplate || translations.en.progressTemplate;
+                progressText.textContent = template.replace('{c}', complete).replace('{n}', checks.length);
+                progressBar.style.width = `${(complete / checks.length) * 100}%`;
+            }
+            function save() {
+                const status = Object.fromEntries(checks.map(c => [c.dataset.check, c.checked]));
+                try {
+                    localStorage.setItem(key, JSON.stringify(status));
+                    localStorage.setItem(timeKey, Date.now().toString());
+                } catch (e) {}
+                refresh();
+            }
+
+            window.refreshChecklistProgress = refresh;
+            checks.forEach(c => c.addEventListener('change', save));
+            document.getElementById('completeAll')?.addEventListener('click', () => {
+                checks.forEach(c => c.checked = true);
+                save();
+            });
+            document.getElementById('resetChecklist')?.addEventListener('click', () => {
+                checks.forEach(c => c.checked = false);
+                save();
+            });
+            refresh();
+        }
+
+        function initLanguage() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentLang = btn.dataset.lang;
+                    sessionStorage.setItem('beeLifeLang', currentLang);
+                    document.documentElement.lang = currentLang;
+                    updateContent();
+                });
+            });
+        }
+
+        function updateContent() {
+            const langPack = translations[currentLang] || translations.en;
+            Object.keys(langPack).forEach(key => {
+                const el = document.getElementById(key);
+                if (el && typeof langPack[key] === 'string') el.textContent = langPack[key];
+            });
+        }
+
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            wrapper = document.getElementById('zoom-wrapper');
+            if (window.ResizeObserver) new ResizeObserver(syncZoomHeight).observe(wrapper);
+        
+            initChecklist();
+
+            // Language
+            if (sessionStorage.getItem('beeLifeLang')) {
+                currentLang = sessionStorage.getItem('beeLifeLang');
+                document.documentElement.lang = currentLang;
+            }
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+            updateContent();
+            if (typeof refreshChecklistProgress === 'function') refreshChecklistProgress();
+        
+         // Touch events
+            document.addEventListener('touchstart', (e) => {
+                if (!wrapper) return;
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    initialDistance = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+                    initialScale = appScale;
+                } else if (e.touches.length === 1 && appScale > 1) {
+                    e.preventDefault();
+                    isDragging = true;
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!wrapper) return;
+    
+                if (e.touches.length === 2) {
+      
+                    e.preventDefault();
+                    const currentDistance = Math.hypot(
+                        e.touches[0].clientX - e.touches[1].clientX,
+                        e.touches[0].clientY - e.touches[1].clientY
+                    );
+                    updateScale((currentDistance / initialDistance) * initialScale);
+                } else if (isDragging && e.touches.length === 1 && appScale > 1) {
+                
+                    e.preventDefault();
+                    const deltaX = (e.touches[0].clientX - startX) / appScale;
+                    const deltaY = (e.touches[0].clientY - startY) / appScale;
+        
+                    panX -= deltaX;
+                    panY -= deltaY;
+                    const wrapperWidth = wrapper.scrollWidth;
+                    const wrapperHeight = wrapper.scrollHeight;
+                    const scaledWidth = wrapperWidth * appScale;
+                    const scaledHeight = wrapperHeight * appScale;
+                    panX = Math.max(window.innerWidth - scaledWidth, Math.min(0, panX));
+                    panY = Math.max(window.innerHeight - scaledHeight + 80, Math.min(0, panY));
+        
+                    wrapper.style.transform = `scale(${appScale}) translate(${panX}px, ${panY}px)`;
+        
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                }
+            }, { passive: false });
+
+
+            document.addEventListener('touchend', () => isDragging = false);
+
+            document.addEventListener('wheel', (e) => {
+               if (!wrapper || !(e.ctrlKey || e.metaKey)) return;
+                e.preventDefault();
+                
+                // FIXED: Reset pan + clamp scale
+                const newScale = Math.max(0.5, Math.min(3.0, appScale * (e.deltaY > 0 ? 0.9 : 1.1)));
+                panX = 0; panY = 0; // Reset pan on zoom
+                updateScale(newScale);
+            }, { passive: false });
+    
+ 
+
+
+            // Ctrl/Cmd + and - keys: zoom the content only (not the browser page)
+            document.addEventListener('keydown', (e) => {
+                if (!wrapper || !(e.ctrlKey || e.metaKey) || e.altKey) return;
+                let next = null;
+                if (e.key === '+' || e.key === '=') next = appScale + 0.1;
+                else if (e.key === '-' || e.key === '_') next = appScale - 0.1;
+                else if (e.key === '0') next = 1;
+                if (next === null) return;
+                e.preventDefault();
+                panX = 0; panY = 0;
+                updateScale(Math.round(next * 10) / 10);
+            });
+
+            document.addEventListener('dblclick', () => {
+                appScale = 1;
+                panX = 0; 
+                panY = 0;
+                updateScale(1);  // This resets everything
+            });
+
+
+            // Input tracking
+            document.addEventListener('mousemove', handleInput);
+            document.addEventListener('touchstart', handleInput, { passive: true });
+            document.addEventListener('touchmove', handleInput, { passive: true });
+
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach((link, i) => {
+                link.addEventListener('click', e => {
+                    const href = link.getAttribute('href');
+                    if (href.startsWith('#') && href.length > 1) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Blog dropdown
+            document.querySelectorAll('.blog-dropdown li').forEach(li => {
+                li.setAttribute('tabindex', '0');
+                li.setAttribute('role', 'link');
+                li.addEventListener('keydown', e => { if (e.key === 'Enter') li.click(); });
+                li.addEventListener('click', function(e) {
+                    e.preventDefault(); e.stopPropagation();
+                    document.querySelector('.blog-container')?.classList.remove('active');
+                    if (this.dataset.url) { window.location.href = this.dataset.url; return; }
+                    const t = document.getElementById('blogSoon');
+                    t.classList.add('show');
+                    clearTimeout(window.soonTimer);
+                    window.soonTimer = setTimeout(() => t.classList.remove('show'), 2500);
+                });
+            });
+
+            document.addEventListener('click', e => {
+                if (window.innerWidth <= 768 && document.querySelector('.blog-link')?.contains(e.target)) {
+                    e.preventDefault();
+                    document.querySelector('.blog-container').classList.toggle('active');
+                } else if (window.innerWidth <= 768) {
+                    document.querySelector('.blog-container')?.classList.remove('active');
+                }
+            });
+
+            // Language
+            initLanguage();
+
+            // Scroll handler (SINGLE)
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                document.querySelector('.scroll-indicator').style.width = (scrollTop / docHeight * 100) + '%';
+            
+                document.querySelectorAll('.section').forEach(s => {
+                    s.classList.toggle('visible', s.getBoundingClientRect().top < window.innerHeight && s.getBoundingClientRect().bottom > 0);
+                });
+            
+                document.querySelectorAll('.nav-link').forEach((link, i) => {
+                    const sections = document.querySelectorAll('.section');
+                    if (i < sections.length) link.classList.toggle('active', sections[i].getBoundingClientRect().top < 100);
+                });
+            });
+
+            // Initial setup
+            document.querySelectorAll('.section').forEach(s => s.classList.add('visible'));
+            detectMobile();
+            rafId = requestAnimationFrame(animateQueen);
+
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    // Tab visible again: always restart the bee loop
+                    isVisible = true;
+                    if (rafId !== null) cancelAnimationFrame(rafId);
+                    rafId = requestAnimationFrame(animateQueen);
+                } else if (rafId !== null) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            });
+        });
+
+        window.addEventListener('resize', detectMobile);
+    
+    </script>
+
+</body>
+</html>
