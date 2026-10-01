@@ -19,8 +19,9 @@
                 font-family: 'Playfair Display', serif;     
                 line-height: 1.2; 
                 color: #06161f; 
-                cursor: none;
+                
                 overflow-x:hidden;
+                cursor: none;
                 transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             }
    
@@ -52,7 +53,7 @@
                 
                 .title-bar {
                     position: fixed; top: 0; left: 0; right: 0; 
-                    background: rgba(8, 28, 61, 0.988); 
+                    background: rgba(5, 34, 81, 0.916); 
                     backdrop-filter: blur(20px);
                     display: flex; align-items: center; 
                     justify-content: space-between;
@@ -131,7 +132,7 @@
                 .hero-tagline {
                     font-family: 'Cinzel', serif; font-weight: 900;
                     font-size: clamp(1.6rem, 5vw, 3.2rem); line-height: 1.25;
-                    text-align: center; max-width: 900px; margin: 0 auto;color:#f6f6f6db;
+                    text-align: center; max-width: 900px; margin: 0 auto; color: #0f0a1ff1;
                     padding: 18vh 1rem 8vh;
                 }
                 body::before {
@@ -318,7 +319,7 @@
                     }
                     #hTitle {
                         font-size: 2.5rem !important;
-                        color:#f6f6f6db !important;
+                        color: #090101 !important;
                         text-shadow: none !important;
                         position: relative !important;
                     }
@@ -443,6 +444,11 @@
                     transition: transform 0.4s; 
                 }
                 .product-card:hover { transform: translateY(-10px); }
+                .product-card img {
+                    width: 100%; height: 180px; object-fit: cover;
+                    border-radius: 24px; margin-bottom: 1rem;
+                    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+                }
                 .contact { text-align: center; }
                 .contact-info { font-size: 1.5rem; margin-top: 2rem; color: #8b4513; }
 
@@ -531,7 +537,7 @@
                     <li data-soon="true">Workshops &amp; Events</li>
                 </ul>
             </div>
-            <a href="#" class="nav-link">Gallery</a>
+            <a data-soon="true" class="nav-link">Gallery</a>
         </nav>
         
         <div class="lang-selector">
@@ -568,21 +574,51 @@
                 <h2 id="productsTitle">Our Products</h2>
                 <div class="products-grid">
                     <div class="product-card">
+                        <img src="./assets/products/raw_honey.jpg" alt="Jars of raw honey" loading="lazy" onerror="this.remove()">
                         <h3 id="prod1Title">Raw Honey Varietals</h3>
                         <p id="prod1Text">Raw, unfiltered honeys sourced from local apiaries, offering flavors like mustard(Brassica spp.), wildflower, and Chilaune (Schima wallichii) for health benefits such as antioxidants and natural soothing properties.</p>
                     </div>
                     <div class="product-card">
+                        <img src="./assets/products/comb_honey.jpg" alt="Comb honey" loading="lazy" onerror="this.remove()">
                         <h3 id="prod3Title">Comb Honey</h3>
                         <p id="prod3Text">Pure comb honey straight from the hive.</p>
                     </div>
                     <div class="product-card">
+                        <img src="./assets/products/beekeeping_kits.jpeg" alt="Beekeeping starter kit" loading="lazy" onerror="this.remove()">
                         <h3 id="prod4Title">Beekeeping Kits</h3>
                         <p id="prod4Text">Starter hives, protective gear, and tools for beginners, including Newton frames and smokers to encourage backyard beekeeping.</p>
                     </div>
                     <div class="product-card">
+                        <img src="./assets/products/queen_bee.jpg" alt="Queen bee and nucleus hive" loading="lazy" onerror="this.remove()">
                         <h3 id="prod2Title">Queen Bees & Nucleus Hives</h3>
                         <p id="prod2Text">Premium queen bees and nucleus hives (nucs) for beekeepers. Healthy, locally-mated queens with worker bees and frames ready for immediate hive expansion or new apiary starts.</p>
                     </div>
+                    <div class="product-card">
+                        <img src="./assets/products/oranges.jpg" alt="Fresh oranges from our farm" loading="lazy" onerror="this.remove()">
+                        <h3 id="prod5Title">Fresh Oranges</h3>
+                        <p id="prod5Text">Juicy, naturally grown oranges from our own orchard, harvested in season and available alongside our honey products.</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="./assets/products/coffee_beans.jpg" alt="Roasted coffee beans" loading="lazy" onerror="this.remove()">
+                        <h3 id="prod6Title">Coffee Beans</h3>
+                        <p id="prod6Text">Locally grown coffee beans, hand-picked and processed on our farm for a rich, aromatic cup.</p>
+                    </div>
+                    <div class="product-card">
+                        <img
+                            src="./assets/products/greenhouse_tomato.jpg"
+                            alt="Fresh greenhouse tomatoes"
+                            loading="lazy"
+                            onerror="this.remove()"
+                        >
+
+                        <h3 id="prod7Title">Tomato</h3>
+
+                        <p id="prod7Text">
+                            Locally grown greenhouse tomatoes, carefully cultivated for a fresh taste and vibrant flavor.
+                        </p>
+                    </div>
+
+                    
                 </div>
             </section>
 
@@ -639,6 +675,9 @@
                 prod2Text: "Premium queen bees and nucleus hives (nucs) for beekeepers. Healthy, locally-mated queens with worker bees and frames ready for immediate hive expansion or new apiary starts.",
                 prod3Title: "Comb Honey", prod3Text: "Pure comb honey straight from the hive.",
                 prod4Title: "Beekeeping Kits", prod4Text: "Starter hives, protective gear, and tools for beginners, including Newton frames and smokers to encourage backyard beekeeping.",
+                prod5Title: "Fresh Oranges", prod5Text: "Juicy, naturally grown oranges from our own orchard, harvested in season and available alongside our honey products.",
+                prod6Title: "Coffee Beans", prod6Text: "Locally grown coffee beans, hand-picked and processed on our farm for a rich, aromatic cup.",
+                prod7Title:"Tomato",prod7Text:"Locally grown greenhouse tomatoes, carefully cultivated for a fresh taste and vibrant flavor.",
                 contactTitle: "Contact Us", contactText: "Ready for the purest honey? Reach out to our royal apiary today!",
                 hTitle: "Pure local honey from sustainable apiaries",
                 devNotice: "🚧 Our website is still in development. It is fully functional, and we will keep adding more references. The Gallery and Blog pages are being expanded, so please check back soon.",
@@ -656,6 +695,9 @@
                 prod2Text: "मौरीपालनका लागि प्रिमियम रानी मौरी र न्यूक्लियस हाइभ। स्वस्थ, स्थानीय जोडी रानीहरू सहित कामदार मौरीहरू र फ्रेमहरू।",
                 prod3Title: "कम्ब मह", prod3Text: "घारबाट सीधा शुद्ध कम्ब मह ।",
                 prod4Title: "मौरीपालन किटहरू", prod4Text: "सुरु गर्नका लागि घारहरू, सुरक्षात्मक उपकरण र उपकरणहरू सहित न्यूटन फ्रेम र धुवाँ दिने उपकरण।",
+                prod5Title: "ताजा सुन्तला", prod5Text: "हाम्रै बगैंचाबाट उत्पादित रसिलो, प्राकृतिक रूपमा उब्जाइएको सुन्तला, मौसममा टिपिएको र हाम्रा मह उत्पादनसँगै उपलब्ध।",
+                prod6Title: "कफी बीउ", prod6Text: "हाम्रै खेतमा उत्पादित र प्रशोधन गरिएको स्थानीय कफी बीउ, स्वादिलो र सुगन्धित कप तयार पार्नका लागि।",
+                prod7Title: "गोलभेंडा",prod7Text: "ताजा स्वाद र उत्कृष्ट सुगन्धका लागि सावधानीपूर्वक खेती गरिएका स्थानीय हरितगृहका गोलभेंडाहरू।",
                 contactTitle: "हामीलाई सम्पर्क गर्नुहोस्", contactText: "शुद्धतम महको लागि तयार हुनुहुन्छ?",
                 hTitle: "दिगो मौरीपालनबाट शुद्ध स्थानीय मह",
                 devNotice: "🚧 हाम्रो वेबसाइट अझै विकासको चरणमा छ। यो पूर्ण रूपमा चलिरहेको छ, र हामी थप सन्दर्भ सामग्रीहरू थप्दै जानेछौं। ग्यालरी र ब्लग पृष्ठहरू विस्तार गरिँदैछन्, कृपया फेरि भ्रमण गर्नुहोस्।",
@@ -676,6 +718,9 @@
                 prod3Text: "Čisti satni med naravnost iz panja.",
                 prod4Title: "Kompleti za čebelarstvo",
                 prod4Text: "Začetni panji, zaščitna oprema in orodja za začetnike, vključno z Newton okvirji in dimilniki za spodbujanje čebelarjenja na domačem vrtu.",
+                prod5Title: "Sveže pomaranče", prod5Text: "Sočne, naravno vzgojene pomaranče iz našega sadovnjaka, obrane v sezoni in na voljo skupaj z izdelki iz medu.",
+                prod6Title: "Kavna zrna", prod6Text: "Lokalno pridelana kavna zrna, ročno obrana in predelana na naši kmetiji za bogat, aromatičen vtis.",
+                prod7Title: "Paradižnik",prod7Text: "Lokalno pridelani paradižniki iz rastlinjaka, skrbno vzgojeni za svež okus in izrazito aromo.",
                 contactTitle: "Kontaktirajte nas",
                 contactText: "Pripravljeni na najčistejši med? Obrnite se na naš kraljevski čebelnjak že danes!",
                 hTitle: "Čist lokalni med iz trajnostnih čebelnjakov",
@@ -907,6 +952,16 @@
                 });
             });
 
+            // Scroll to the right section when arriving from another page with a #hash (e.g. blog "Contact Our Apiary")
+            if (window.location.hash.length > 1) {
+                const target = document.querySelector(window.location.hash);
+                if (target) {
+                    setTimeout(() => {
+                        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+                    }, 250);
+                }
+            }
+
             // Blog dropdown
             document.querySelectorAll('.blog-dropdown li').forEach(li => {
                 li.setAttribute('tabindex', '0');
@@ -957,12 +1012,12 @@
             rafId = requestAnimationFrame(animateQueen);
 
             document.addEventListener('visibilitychange', () => {
-                if (document.visibilityState === 'visible' ) {
+                if (document.visibilityState === 'visible') {
+                    // Tab visible again: always restart the bee loop
                     isVisible = true;
-                    if (rafId !=null) cancelAnimationFrame(rafId);
+                    if (rafId !== null) cancelAnimationFrame(rafId);
                     rafId = requestAnimationFrame(animateQueen);
                 } else if (rafId !== null) {
-                    // Tab hidden - cancel animation frame
                     cancelAnimationFrame(rafId);
                     rafId = null;
                 }
