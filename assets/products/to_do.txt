@@ -1,0 +1,4 @@
+- [ ] List current prices and how to order.
+- [ ] Add photos of our honey, oranges, tomatoes, and farm.
+- [ ] Update the list of products as the seasons change.
+- [ ] Describe how we harvest and care for our products.
