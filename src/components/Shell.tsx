@@ -3,6 +3,7 @@ import { display, body, deva } from '@/lib/fonts';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { JsonLd } from './JsonLd';
+import { BeeCursor } from './BeeCursor';
 import { common } from '@/content/common';
 import { pick, type Lang } from '@/lib/i18n';
 import { organizationLd } from '@/lib/schema';
@@ -17,6 +18,7 @@ export function Shell({ lang, children }: { lang: Lang; children: ReactNode }) {
         <Header lang={lang} t={t} />
         <main id="main">{children}</main>
         <Footer lang={lang} t={t} />
+        <BeeCursor />
         <JsonLd data={organizationLd(lang)} />
       </body>
     </html>
