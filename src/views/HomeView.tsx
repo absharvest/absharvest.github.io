@@ -45,7 +45,7 @@ export function HomeView({ lang }: { lang: Lang }) {
             <div className="arch">
               <Img name="hero" alt={t.heroImgAlt} priority sizes="(max-width: 860px) 90vw, 520px" />
             </div>
-            <Stamp text={c.stamp.repeat(2)} className="hero-stamp" />
+            <Stamp text={c.stamp} lang={lang} className="hero-stamp" />
           </div>
         </div>
         <Ridge className="hero-ridge" />
@@ -204,9 +204,15 @@ export function HomeView({ lang }: { lang: Lang }) {
               </div>
             </dl>
           </div>
-          <div className="contact-map">
-            <iframe title={t.mapTitle} src={SITE.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
-          </div>
+          <figure className="contact-map">
+            <div className="contact-map-frame">
+              <iframe title={t.mapTitle} src={SITE.mapEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+            </div>
+            <figcaption>
+              <span><strong>{SITE.name}</strong>{c.place}</span>
+              <a href={SITE.mapsUrl} target="_blank" rel="noopener">{t.findText} ↗</a>
+            </figcaption>
+          </figure>
         </div>
       </section>
     </>

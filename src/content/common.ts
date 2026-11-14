@@ -17,7 +17,7 @@ export const common = {
     footerExplore: 'Explore',
     footerRights: 'All rights reserved.',
     place: 'Pokhara · Nepal',
-    stamp: 'A premium taste of the Himalayas · Pokhara · Nepal · ',
+    stamp: 'A premium taste of the Himalayas  ·  Pokhara, Nepal  ·  ',
     orderCta: 'Order or ask a question',
   },
   ne: {
@@ -38,7 +38,7 @@ export const common = {
     footerExplore: 'हेर्नुहोस्',
     footerRights: 'सर्वाधिकार सुरक्षित।',
     place: 'पोखरा · नेपाल',
-    stamp: 'हिमालको उत्कृष्ट स्वाद · पोखरा · नेपाल · ',
+    stamp: 'हिमालको उत्कृष्ट स्वाद  ·  पोखरा, नेपाल  ·  ',
     orderCta: 'अर्डर गर्नुहोस् वा सोध्नुहोस्',
   },
   sl: {
@@ -59,7 +59,7 @@ export const common = {
     footerExplore: 'Raziščite',
     footerRights: 'Vse pravice pridržane.',
     place: 'Pokhara · Nepal',
-    stamp: 'Vrhunski okus Himalaje · Pokhara · Nepal · ',
+    stamp: 'Vrhunski okus Himalaje  ·  Pokhara, Nepal  ·  ',
     orderCta: 'Naročite ali vprašajte',
   },
 };
