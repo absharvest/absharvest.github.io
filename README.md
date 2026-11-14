@@ -1,24 +1,52 @@
-# absharvest.github.io
-# Himalayan Harvests from Pokhara, Nepal
+# A.B.S Pristine Harvest — absharvest.com
 
-Welcome to our harvest, grown and gathered in the beautiful surroundings of Pokhara, with the Himalayas rising before us.
+Website for A.B.S Pristine Harvest, a family apiary and farm in Pokhara, Nepal: raw and comb honey, locally mated queen bees, nucleus hives, beekeeping kits, oranges, coffee and greenhouse tomatoes — plus free beekeeping guides.
 
-We bring together the flavors of our region—from honey harvested with care to fresh oranges and tomatoes. Each product reflects the land, the seasons, and the hard work behind every harvest.
+Built with **Next.js** (App Router, static export) and hosted on **GitHub Pages**. Available in English (`/`), Nepali (`/ne`) and Slovenian (`/sl`).
 
-## A taste of Pokhara
+## Run locally
 
-- **Honey:** Rich, naturally sweet honey, gathered with care.
-- **Oranges:** Bright, juicy fruit full of fresh, local flavor.
-- **Tomatoes:** Colorful, delicious tomatoes, harvested when they’re ready to enjoy.
-- **Seasonal produce:** Our harvest changes with the seasons, so there’s always something fresh to discover.
+Requires Node.js 20 or newer.
 
-## Grown and gathered with care
+```bash
+npm install
+npm run dev          # http://localhost:3000 with live reload
+```
 
-We’re proud to share products from our home in Pokhara. We believe good food begins with respect for the land and care at every step—from harvest to your table.
+To preview the exact production build:
 
-## Discover our harvest
+```bash
+npm run build        # writes the static site to out/
+npm start            # serves out/ at http://localhost:3000
+```
 
-Whether you’re nearby or visiting Pokhara, we’d love for you to experience the flavors of our region. Get in touch to ask about what’s in season, place an order, or learn more about our products.
+## Where things live
 
-**Fresh from Pokhara. Inspired by the Himalayas. Shared with care.**
+| What | Where |
+| --- | --- |
+| Text for every page, in all three languages | `src/content/` (`home.ts`, `howTo.ts`, `tips.ts`, `common.ts`) |
+| Page layouts | `src/views/` |
+| Design (colours, fonts, layout) | `src/app/globals.css` |
+| Business details (email, phone, map, address) | `src/lib/site.ts` |
+| SEO (titles, hreflang, structured data, sitemap) | `src/lib/seo.ts`, `src/lib/schema.ts`, `src/app/sitemap.ts` |
 
+Missing Nepali or Slovenian text automatically falls back to English.
+
+## Adding or changing photos
+
+1. Put the original image in `src-images/` (or `src-images/products/`).
+2. Register it in `scripts/optimize-images.mjs`.
+3. Run `npm run images` — this creates resized WebP files in `public/images/`.
+4. Use it with `<Img name="yourKey" alt="…" />`.
+
+## Deploying
+
+Every push to `main` builds the site and publishes it with GitHub Actions (`.github/workflows/deploy.yml`).
+One-time setup: in the GitHub repo go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**. The custom domain is kept via `public/CNAME`.
+
+## To do
+
+- [ ] List current prices and how to order.
+- [ ] Add more photos of the farm, hives and family.
+- [ ] Update products as the seasons change.
+- [ ] Describe how we harvest and care for our products.
